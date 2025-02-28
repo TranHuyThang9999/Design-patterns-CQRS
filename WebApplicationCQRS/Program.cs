@@ -3,6 +3,7 @@ using WebApplicationCQRS.Application.Features.Users.Commands;
 using WebApplicationCQRS.Application.Features.Users.Queries;
 using WebApplicationCQRS.Infrastructure.Persistence.Context;
 using WebApplicationCQRS.Domain.Interfaces;
+using WebApplicationCQRS.Infrastructure.Middleware;
 using WebApplicationCQRS.Infrastructure.Persistence.Repositories;
 using WebApplicationCQRS.Infrastructure.Security;
 
@@ -51,6 +52,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<JwtMiddleware>();
 
 app.UseHttpsRedirection();
 app.MapControllers();

@@ -29,7 +29,7 @@ namespace WebApplicationCQRS.Infrastructure.Security
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, userId.ToString()) }),
+                    Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Sid, userId.ToString()) }),
                     Expires = DateTime.UtcNow.AddHours(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };

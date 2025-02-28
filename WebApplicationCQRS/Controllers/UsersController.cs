@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationCQRS.Application.DTOs;
 using WebApplicationCQRS.Application.Features.Users.Commands;
@@ -24,14 +25,15 @@ public class UsersController:ControllerBase
         var response = await _mediator.Send(command);
         return StatusCode((int)response.StatusCode, response);
     }
-
+    [Authorize]
     [HttpGet("profile")]
     public async Task<ActionResult<List<UserDto>>> Profile()
     {
         var response = await _mediator.Send(new GetUserQuery(5));
         return StatusCode((int)response.StatusCode, response);
     }
-
+    
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login([FromBody]LoginQuery loginDto )
     {
@@ -39,4 +41,5 @@ public class UsersController:ControllerBase
         
         return StatusCode((int)response.StatusCode, response);
     }
+    
 }
