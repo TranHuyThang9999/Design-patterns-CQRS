@@ -1,6 +1,15 @@
+using MediatR;
+using WebApplicationCQRS.Application.DTOs;
+
 namespace WebApplicationCQRS.Application.Features.Users.Queries;
 
-public class GetUserQuery
+public class GetUserQuery :IRequest<UserDto>
 {
+    public int Id { get; set; }
+    public GetUserQuery(){}
+    public GetUserQuery(int id)
+    {
+        Id = id;
+    }
     
 }
