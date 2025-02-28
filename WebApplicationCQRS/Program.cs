@@ -13,13 +13,15 @@ using WebApplicationCQRS.Infrastructure.Security;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(CreateUserCommandHandler).Assembly,
     typeof(GetUserQueryHandler).Assembly
 ));
 
 var jwtSettings = configuration.GetRequiredSection("Jwt");
-var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ?? throw new InvalidOperationException("SecretKey is missing in configuration"));
+var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ??
+                                       throw new InvalidOperationException("SecretKey is missing in configuration"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -36,7 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization(); 
+builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -51,6 +53,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -59,11 +62,11 @@ using (var scope = app.Services.CreateScope())
     {
         dbContext.Database.OpenConnection();
         dbContext.Database.CloseConnection();
-        Console.WriteLine("✅ Kết nối SQL Server thành công!");
+        logger.LogInformation("Connection database is successful");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"❌ Lỗi kết nối SQL Server: {ex.Message}");
+        logger.LogError($"An error occurred connecting to database: {ex.Message}");
     }
 }
 
