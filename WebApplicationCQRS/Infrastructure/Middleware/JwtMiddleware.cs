@@ -44,6 +44,7 @@ namespace WebApplicationCQRS.Infrastructure.Middleware
                 await context.Response.WriteAsync("Unauthorized");
                 return;
             }
+            context.Items["userID"] = userId;
 
             await next(context);
         }
