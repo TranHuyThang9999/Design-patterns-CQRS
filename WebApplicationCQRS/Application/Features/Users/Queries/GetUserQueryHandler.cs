@@ -4,7 +4,7 @@ using WebApplicationCQRS.Domain.Interfaces;
 
 namespace WebApplicationCQRS.Application.Features.Users.Queries;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
+public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<UserDto>>
 {
     private readonly IUserRepository _userRepository;
 
@@ -13,7 +13,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
         _userRepository = userRepository;
     }
 
-    public async Task<UserDto> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    public async Task<Result<UserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetUserById(request.Id);
         if (user is null)
@@ -21,6 +21,6 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
             return null;
         }
 
-        return new UserDto(id:user.Id, name:user.Name, email:user.Email);
+      return Result<UserDto>.Success(new UserDto(user.Id, user.Name, user.Email));
     }
 }

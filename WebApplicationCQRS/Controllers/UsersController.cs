@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApplicationCQRS.Application.DTOs;
 using WebApplicationCQRS.Application.Features.Users.Commands;
+using WebApplicationCQRS.Application.Features.Users.Queries;
 
 namespace WebApplicationCQRS.Controllers;
 
@@ -17,9 +19,16 @@ public class UsersController:ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
         var response = await _mediator.Send(command);
+        return Ok(response);
+    }
+
+    [HttpGet("profile")]
+    public async Task<ActionResult<List<UserDto>>> Profile()
+    {
+        var response = await _mediator.Send(new GetUserQuery(5));
         return Ok(response);
     }
 }

@@ -1,11 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplicationCQRS.Application.Features.Users.Commands;
+using WebApplicationCQRS.Application.Features.Users.Queries;
 using WebApplicationCQRS.Infrastructure.Persistence.Context;
 using WebApplicationCQRS.Domain.Interfaces;
 using WebApplicationCQRS.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly));
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+    typeof(CreateUserCommandHandler).Assembly,
+    typeof(GetUserQueryHandler).Assembly
+));
 
 // 
 builder.Services.AddDbContext<AppDbContext>(options =>
