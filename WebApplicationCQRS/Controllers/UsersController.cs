@@ -19,6 +19,7 @@ public class UsersController:ControllerBase
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
     {

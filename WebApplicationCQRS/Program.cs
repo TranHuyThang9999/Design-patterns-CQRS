@@ -1,32 +1,30 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WebApplicationCQRS.Application.Features.Users.Commands;
 using WebApplicationCQRS.Application.Features.Users.Queries;
-using WebApplicationCQRS.Infrastructure.Persistence.Context;
 using WebApplicationCQRS.Domain.Interfaces;
 using WebApplicationCQRS.Infrastructure.Middleware;
+using WebApplicationCQRS.Infrastructure.Persistence.Context;
 using WebApplicationCQRS.Infrastructure.Persistence.Repositories;
 using WebApplicationCQRS.Infrastructure.Security;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(CreateUserCommandHandler).Assembly,
-    typeof(GetUserQueryHandler).Assembly,
-    typeof(JwtMiddleware).Assembly
-
+    typeof(GetUserQueryHandler).Assembly
 ));
 
-// 🔹 Cấu hình JWT
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
+var jwtSettings = configuration.GetRequiredSection("Jwt");
+var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ?? throw new InvalidOperationException("SecretKey is missing in configuration"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters()
+        options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -41,10 +39,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(); 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddSingleton<IJwtService, JwtService>();
+
+builder.Services.AddTransient<JwtMiddleware>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -69,13 +70,13 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 }
 
-app.UseMiddleware<JwtMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseAuthorization(); 
+app.UseMiddleware<JwtMiddleware>();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

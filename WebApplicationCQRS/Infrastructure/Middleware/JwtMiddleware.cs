@@ -45,7 +45,6 @@ namespace WebApplicationCQRS.Infrastructure.Middleware
                 return;
             }
 
-            // ✅ Quan trọng: Nếu xác thực thành công, tiếp tục request
             await next(context);
         }
     }
