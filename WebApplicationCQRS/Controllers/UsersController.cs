@@ -19,7 +19,7 @@ public class UsersController:ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
-        var userId = await _mediator.Send(command);
-        return Ok(new { UserId = userId });
+        var response = await _mediator.Send(command);
+        return Ok(response);
     }
 }
