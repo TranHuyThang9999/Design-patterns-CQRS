@@ -1,3 +1,4 @@
+using System.Net;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebApplicationCQRS.Domain;
@@ -26,7 +27,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
             var user = await _userRepository.GetUserByUsername(request.Name);
             if (user != null)
             {
-                return Result<int>.Failure(ResponseCode.Conflict, "User already exists");
+                return Result<int>.Failure(ResponseCode.Conflict, "User already exists",HttpStatusCode.Conflict);
             }
 
             var id = Random.Shared.Next(1, 100);
@@ -41,12 +42,12 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         catch (DbUpdateException dbEx) when (dbEx.InnerException?.Message.Contains("UQ_UserName") == true)
         {
             _logger.LogWarning("Duplicate username detected: {Name}", request.Name);
-            return Result<int>.Failure(ResponseCode.Conflict, "User already exists");
+            return Result<int>.Failure(ResponseCode.Conflict, "User already exists",HttpStatusCode.Conflict);
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Unexpected error while creating user.");
-            return Result<int>.Failure(ResponseCode.InternalError, "Internal Server Error");
+            return Result<int>.Failure(ResponseCode.InternalError, "Internal Server Error",HttpStatusCode.InternalServerError);
         }
 
     }

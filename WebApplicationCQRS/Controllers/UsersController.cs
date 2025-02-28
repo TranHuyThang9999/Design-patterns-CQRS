@@ -22,13 +22,13 @@ public class UsersController:ControllerBase
     public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
         var response = await _mediator.Send(command);
-        return Ok(response);
+        return StatusCode((int)response.StatusCode, response);
     }
 
     [HttpGet("profile")]
     public async Task<ActionResult<List<UserDto>>> Profile()
     {
         var response = await _mediator.Send(new GetUserQuery(5));
-        return Ok(response);
+        return StatusCode((int)response.StatusCode, response);
     }
 }
