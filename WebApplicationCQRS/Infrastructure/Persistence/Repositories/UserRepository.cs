@@ -42,4 +42,11 @@ public class UserRepository : IUserRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<User> GetUserByUsername(string username)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Name == username);
+    }
+   
+
 }
