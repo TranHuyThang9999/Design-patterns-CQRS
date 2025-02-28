@@ -31,4 +31,12 @@ public class UsersController:ControllerBase
         var response = await _mediator.Send(new GetUserQuery(5));
         return StatusCode((int)response.StatusCode, response);
     }
+
+    [HttpPost("login")]
+    public async Task<ActionResult<string>> Login([FromBody]LoginQuery loginDto )
+    {
+        var response = await _mediator.Send(loginDto);
+        
+        return StatusCode((int)response.StatusCode, response);
+    }
 }
