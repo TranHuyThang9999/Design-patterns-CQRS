@@ -1,28 +1,52 @@
-using WebApplicationCQRS.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+
 using WebApplicationCQRS.Infrastructure.Security;
 
 namespace WebApplicationCQRS.Infrastructure.Middleware
 {
-    public class JwtMiddleware
+    public class JwtMiddleware : IMiddleware
     {
-        private readonly RequestDelegate _next;
+        private readonly ILogger<JwtMiddleware> _logger;
+        private readonly IJwtService _jwtService;
 
-        public JwtMiddleware(RequestDelegate next)
+        public JwtMiddleware(ILogger<JwtMiddleware> logger, IJwtService jwtService)
         {
-            _next = next;
+            _logger = logger;
+            _jwtService = jwtService;
         }
 
-        public async Task Invoke(HttpContext context, IJwtService jwtService, IUserRepository userRepository)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            var userId = jwtService.ValidateToken(token);
-
-            if (userId != null)
+            var endpoint = context.GetEndpoint();
+            if (endpoint != null && endpoint.Metadata.GetMetadata<AllowAnonymousAttribute>() != null)
             {
-                context.Items["User"] = await userRepository.GetUserById(userId.Value);
+                await next(context);
+                return;
             }
 
-            await _next(context);
+            var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            {
+                _logger?.LogWarning("Unauthorized request - missing or invalid token.");
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                await context.Response.WriteAsync("Unauthorized");
+                return;
+            }
+
+            var token = authHeader.Substring(7);
+            var tokenInfo = _jwtService.GetUserIdFromToken(token);
+
+            if (!tokenInfo.TryGetValue("userID", out var userId) || string.IsNullOrEmpty(userId))
+            {
+                _logger?.LogWarning("Unauthorized request - Unable to extract userID.");
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                await context.Response.WriteAsync("Unauthorized");
+                return;
+            }
+
+            // ✅ Quan trọng: Nếu xác thực thành công, tiếp tục request
+            await next(context);
         }
     }
 }

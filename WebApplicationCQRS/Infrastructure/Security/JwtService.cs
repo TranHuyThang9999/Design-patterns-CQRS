@@ -3,81 +3,115 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using WebApplicationCQRS.Domain.Entities;
 
 namespace WebApplicationCQRS.Infrastructure.Security
 {
     public class JwtService : IJwtService
     {
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<JwtService> _logger;
 
-        public JwtService(IConfiguration config)
+        public JwtService(IConfiguration configuration, ILogger<JwtService> logger)
         {
-            _config = config;
+            _configuration = configuration;
+            _logger = logger;
         }
 
-        public string? GenerateToken(int userId)
+        public string GenerateJwtToken(User user, Dictionary<string, string>? customClaims = null)
         {
             try
             {
-                var keyString = _config["Jwt:SecretKey"];
-                if (string.IsNullOrEmpty(keyString))
+                if (user == null)
                 {
-                    throw new ArgumentNullException(nameof(keyString), "JWT Key is missing in configuration.");
+                    throw new ArgumentNullException(nameof(user), "User cannot be null when generating JWT.");
                 }
 
-                var key = Encoding.UTF8.GetBytes(keyString);
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenDescriptor = new SecurityTokenDescriptor
+                var claims = new List<Claim>
                 {
-                    Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Sid, userId.ToString()) }),
-                    Expires = DateTime.UtcNow.AddHours(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.Name)
                 };
 
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine($"[JWT Error] Missing key: {ex.Message}");
-            }
-            catch (SecurityTokenException ex)
-            {
-                Console.WriteLine($"[JWT Error] Security token issue: {ex.Message}");
+                if (customClaims != null)
+                {
+                    foreach (var customClaim in customClaims)
+                    {
+                        claims.Add(new Claim(customClaim.Key, customClaim.Value));
+                    }
+                }
+
+                var secretKey = _configuration["Jwt:SecretKey"];
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    throw new InvalidOperationException("JWT SecretKey is missing in configuration.");
+                }
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var expirationConfig = _configuration["Jwt:Expiration"];
+                if (string.IsNullOrEmpty(expirationConfig) || !double.TryParse(expirationConfig, out double expiration))
+                {
+                    throw new InvalidOperationException("Invalid or missing JWT Expiration value.");
+                }
+
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddMinutes(expiration),
+                    signingCredentials: credentials
+                );
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[JWT Error] Unexpected error: {ex.Message}");
+                _logger?.LogError(ex, "Error occurred while generating JWT token: {Message}", ex.Message);
+                throw;
             }
-
-            return null;
         }
 
 
-        public int? ValidateToken(string token)
+        public Dictionary<string, string> GetUserIdFromToken(string token)
         {
-            if (string.IsNullOrEmpty(token)) return null;
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
+            var result = new Dictionary<string, string>();
 
             try
             {
-                var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
-                }, out var validatedToken);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
 
-                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                return int.TryParse(userId, out var id) ? id : null;
+                if (jwtToken == null)
+                {
+                    _logger?.LogWarning("Token parsing failed.");
+                    return result;
+                }
+
+                var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "userID")?.Value;
+                var lastPasswordUpdate = jwtToken.Claims.FirstOrDefault(c => c.Type == "lastPasswordUpdate")?.Value;
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    result["userID"] = userId;
+                }
+                else
+                {
+                    _logger?.LogWarning("Token is missing 'userID' claim.");
+                }
+
+                if (!string.IsNullOrEmpty(lastPasswordUpdate))
+                {
+                    result["lastPasswordUpdate"] = lastPasswordUpdate;
+                }
+
+                return result;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                _logger?.LogWarning("Token validation failed: {Message}", ex.Message);
+                return new Dictionary<string, string>();
             }
         }
     }

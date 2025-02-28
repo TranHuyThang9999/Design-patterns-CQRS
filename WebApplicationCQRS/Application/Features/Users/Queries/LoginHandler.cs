@@ -1,7 +1,7 @@
+using System.Globalization;
 using System.Net;
 using MediatR;
 using WebApplicationCQRS.Domain;
-using WebApplicationCQRS.Domain.Entities;
 using WebApplicationCQRS.Domain.Interfaces;
 using WebApplicationCQRS.Infrastructure.Security;
 
@@ -35,8 +35,13 @@ public class LoginHandler:IRequestHandler<LoginQuery, Result<string>>
                 return Result<string>.Failure(ResponseCode.Conflict, "User not found",HttpStatusCode.NotFound);
             }
             
-            var token = _jwtService.GenerateToken(user.Id);
-            
+            var customClaims = new Dictionary<string, string>
+            {
+                { "userID", user.Id.ToString() },
+                { "lastPasswordUpdate", user.Updated.ToString(CultureInfo.InvariantCulture) }
+            };
+
+            var token = _jwtService.GenerateJwtToken(user, customClaims);            
             return Result<string>.Success(token);
 
         }
