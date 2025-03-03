@@ -38,7 +38,7 @@ public class LoginHandler : IRequestHandler<LoginQuery, Result<string>>
             var customClaims = new Dictionary<string, string>
             {
                 { "userID", user.Id.ToString() },
-                { "lastPasswordUpdate", user.Updated.ToString(CultureInfo.InvariantCulture) }
+                { "lastPasswordUpdate", user.LastPasswordChangedAt.ToString(CultureInfo.InvariantCulture) }
             };
 
             var token = _jwtService.GenerateJwtToken(user, customClaims);

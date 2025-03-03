@@ -18,7 +18,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         _userRepository = userRepository;
         _logger = logger;
     }
-    
+
     public async Task<Result<int>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         try
@@ -29,11 +29,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
                 return Result<int>.Failure(ResponseCode.Conflict, "User already exists", HttpStatusCode.Conflict);
             }
 
-            var id = Random.Shared.Next(1, 100);
-            var userModel = new User(id, request.Name, request.Email,
-                BCrypt.Net.BCrypt.HashPassword(request.Password),
-                DateOnly.FromDateTime(DateTime.Now),
-                DateTime.Now, DateTime.Now);
+            var userModel = new User(request.Name, request.Email,
+                BCrypt.Net.BCrypt.HashPassword(request.Password)
+                , DateTime.Now);
 
             await _userRepository.CreateUser(userModel);
             return Result<int>.Success(userModel.Id, "User Created Successfully");
