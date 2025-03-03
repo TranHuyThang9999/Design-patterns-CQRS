@@ -18,8 +18,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         _userRepository = userRepository;
         _logger = logger;
     }
-
-
+    
     public async Task<Result<int>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         try
@@ -47,9 +46,8 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         catch (Exception e)
         {
             _logger.LogError(e, "Unexpected error while creating user.");
-            return Result<int>.Failure(ResponseCode.InternalError, "Internal Server Error", HttpStatusCode.InternalServerError);
+            return Result<int>.Failure(ResponseCode.InternalError, "Internal Server Error",
+                HttpStatusCode.InternalServerError);
         }
-
     }
-
 }

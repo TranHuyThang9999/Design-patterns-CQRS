@@ -25,7 +25,11 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
         var response = await _mediator.Send(command);
-        return StatusCode((int)response.StatusCode, response);
+        return StatusCode((int)response.StatusCode, new
+        {
+            response.Code,
+            response.Message,
+        });
     }
 
     [Authorize]

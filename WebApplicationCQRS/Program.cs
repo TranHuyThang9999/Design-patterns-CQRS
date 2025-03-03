@@ -19,6 +19,22 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(GetUserQueryHandler).Assembly
 ));
 
+var corsSettings = configuration.GetSection("Cors");
+var allowedOrigins = corsSettings.GetSection("AllowedOrigins").Get<string[]>() ?? new string[0];
+var allowedMethods = corsSettings.GetSection("AllowedMethods").Get<string[]>() ?? new string[] { "GET", "POST" };
+var allowedHeaders = corsSettings.GetSection("AllowedHeaders").Get<string[]>() ?? new string[] { "Content-Type", "Authorization" };
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+            .WithMethods(allowedMethods)
+            .WithHeaders(allowedHeaders)
+            .AllowCredentials();
+    });
+});
+
 var jwtSettings = configuration.GetRequiredSection("Jwt");
 var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ??
                                        throw new InvalidOperationException("SecretKey is missing in configuration"));
