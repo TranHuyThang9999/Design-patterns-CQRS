@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text.Json.Serialization;
 using WebApplicationCQRS.Common.Enums;
-using WebApplicationCQRS.Domain;
 
 public class Result<T>
 {
