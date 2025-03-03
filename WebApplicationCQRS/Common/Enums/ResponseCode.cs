@@ -1,4 +1,4 @@
-namespace WebApplicationCQRS.Domain;
+namespace WebApplicationCQRS.Common.Enums;
 
 public enum ResponseCode
 {

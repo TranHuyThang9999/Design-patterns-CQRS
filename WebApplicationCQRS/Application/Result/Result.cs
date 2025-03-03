@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json.Serialization;
+using WebApplicationCQRS.Common.Enums;
 using WebApplicationCQRS.Domain;
 
 public class Result<T>
@@ -11,7 +12,7 @@ public class Result<T>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public T? Data { get; }
 
-    private Result(ResponseCode code, HttpStatusCode statusCode, string message, T? data = default)
+    public Result(ResponseCode code, HttpStatusCode statusCode, string message, T? data = default)
     {
         Code = code;
         StatusCode = statusCode;

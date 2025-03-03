@@ -9,6 +9,7 @@ public abstract class BaseEntity
     {
         Id = Random.Shared.Next(1,1000);
         CreatedAt = DateOnly.FromDateTime(DateTime.Now);
+        UpdatedAt = DateTime.Now;
     }
 
     [Key]

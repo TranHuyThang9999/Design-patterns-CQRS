@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using WebApplicationCQRS.Application.Features.Tickets.Commands;
 using WebApplicationCQRS.Application.Features.Users.Commands;
 using WebApplicationCQRS.Application.Features.Users.Queries;
 using WebApplicationCQRS.Domain.Interfaces;
@@ -32,7 +33,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(CreateUserCommandHandler).Assembly,
-    typeof(GetUserQueryHandler).Assembly
+    typeof(GetUserQueryHandler).Assembly,
+    typeof(CreateTicketHandler).Assembly
 ));
 
 var jwtSettings = configuration.GetRequiredSection("Jwt");
@@ -60,6 +62,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITicketRepository,TicketRepository>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
 
 builder.Services.AddTransient<JwtMiddleware>();

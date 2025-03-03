@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Net;
 using MediatR;
+using WebApplicationCQRS.Common.Enums;
 using WebApplicationCQRS.Domain;
 using WebApplicationCQRS.Domain.Interfaces;
 using WebApplicationCQRS.Infrastructure.Security;

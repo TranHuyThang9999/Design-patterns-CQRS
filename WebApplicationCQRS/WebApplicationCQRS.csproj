@@ -26,4 +26,8 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application\Features\Tickets\Queries\" />
+    </ItemGroup>
+
 </Project>
