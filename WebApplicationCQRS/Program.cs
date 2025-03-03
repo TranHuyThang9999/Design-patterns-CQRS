@@ -13,12 +13,6 @@ using WebApplicationCQRS.Infrastructure.Security;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-    typeof(CreateUserCommandHandler).Assembly,
-    typeof(GetUserQueryHandler).Assembly
-));
-
 var corsSettings = configuration.GetSection("Cors");
 var allowedOrigins = corsSettings.GetSection("AllowedOrigins").Get<string[]>() ?? new string[0];
 var allowedMethods = corsSettings.GetSection("AllowedMethods").Get<string[]>() ?? new string[] { "GET", "POST" };
@@ -34,6 +28,12 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+    typeof(CreateUserCommandHandler).Assembly,
+    typeof(GetUserQueryHandler).Assembly
+));
 
 var jwtSettings = configuration.GetRequiredSection("Jwt");
 var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ??
@@ -93,6 +93,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseMiddleware<JwtMiddleware>();
 app.UseAuthorization();
