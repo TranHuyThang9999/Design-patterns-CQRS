@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
         await _context.Users.FindAsync(id);
 
     public async Task<IEnumerable<User>> GetUsers() =>
-        await _context.Users.ToListAsync(); 
+        await _context.Users.ToListAsync();
 
     public async Task<int> CreateUser(User user)
     {
@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
 
     public async Task DeleteUserById(int id)
     {
-        var user =await _context.Users.FindAsync(id);
+        var user = await _context.Users.FindAsync(id);
         if (user != null)
         {
             _context.Users.Remove(user);
@@ -47,6 +47,6 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Name == username);
     }
-   
+
 
 }

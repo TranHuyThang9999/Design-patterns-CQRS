@@ -7,7 +7,7 @@ public class Result<T>
     public ResponseCode Code { get; }
     public string Message { get; }
     public HttpStatusCode StatusCode { get; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public T? Data { get; }
 

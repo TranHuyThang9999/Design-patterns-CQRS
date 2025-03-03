@@ -15,8 +15,8 @@ public class User
         Updated = updated;
         LastPasswordChangedAt = lastPasswordChangedAt;
     }
-    public User(){}
-    
+    public User() { }
+
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
 

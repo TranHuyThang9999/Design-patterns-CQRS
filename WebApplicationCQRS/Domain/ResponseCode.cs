@@ -6,5 +6,5 @@ public enum ResponseCode
     ValidationError = 1,
     NotFound = 2,
     InternalError = 3,
-    Conflict= 4
+    Conflict = 4
 }

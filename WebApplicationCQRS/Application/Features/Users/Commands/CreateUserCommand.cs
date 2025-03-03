@@ -10,7 +10,7 @@ public class CreateUserCommand : IRequest<Result<int>>
     public string Email { get; set; }
     [Required]
     public string Password { get; set; }
-    
+
     public CreateUserCommand(string name, string email, string password)
     {
         Name = name?.Trim() ?? string.Empty;
