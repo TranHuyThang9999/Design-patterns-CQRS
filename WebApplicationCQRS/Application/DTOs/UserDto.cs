@@ -26,8 +26,14 @@ public class UserDto
 
 public class UpdateUserRequest
 {
-    [EmailAddress]
     public string Email { get; set; }
-    [Url]
     public string AvatarUrl { get; set; }
+}
+
+public class ChangePasswordRequest
+{
+    [Required]
+    public string CurrentPassword { get; set; }
+    [Required]
+    public string NewPassword { get; set; }
 }
