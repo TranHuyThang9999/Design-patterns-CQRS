@@ -24,8 +24,8 @@ public class User : BaseEntity
     public DateTime LastPasswordChangedAt { get; set; }
 }
 
-
-public class UserUpdateProfile {
+public class UserUpdateProfile
+{
     public int Id { get; set; }
     public string Email { get; set; }
     public string AvatarUrl { get; set; }

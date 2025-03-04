@@ -45,7 +45,7 @@ public class UserRepository : IUserRepository
 
         if (!string.IsNullOrWhiteSpace(userDto.Password))
             userToUpdate.Password = userDto.Password;
-
+            userToUpdate.LastPasswordChangedAt = DateTime.Now;
         await _context.SaveChangesAsync();
         return true;
     }
