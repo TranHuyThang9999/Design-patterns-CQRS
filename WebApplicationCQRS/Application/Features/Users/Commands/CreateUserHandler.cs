@@ -32,7 +32,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, Result<int>>
 
             var userModel = new User(request.Name, request.Email,
                 BCrypt.Net.BCrypt.HashPassword(request.Password)
-                , DateTime.Now);
+                ,request.AvatarUrl, DateTime.Now);
 
             await _userRepository.CreateUser(userModel);
             return Result<int>.Success(userModel.Id, "User Created Successfully");

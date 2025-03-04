@@ -21,6 +21,6 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<UserDto>
             return null;
         }
 
-        return Result<UserDto>.Success(new UserDto(user.Id, user.Name, user.Email));
+        return Result<UserDto>.Success(new UserDto(user.Id, user.Name, user.Email,user.AvatarUrl));
     }
 }
