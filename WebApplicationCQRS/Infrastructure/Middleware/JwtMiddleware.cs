@@ -56,10 +56,12 @@ namespace WebApplicationCQRS.Infrastructure.Middleware
                 return;
             }
 
+            //check password changed
             var lastPasswordUpdateString = tokenInfo["lastPasswordUpdate"];
             if (!DateTime.TryParse(lastPasswordUpdateString, out var lastPasswordUpdate))
             {
                 _logger?.LogWarning("Unauthorized request - Invalid lastPasswordUpdate format.");
+
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsync("Unauthorized");
                 return;
@@ -71,13 +73,13 @@ namespace WebApplicationCQRS.Infrastructure.Middleware
             if (lastPasswordChangedAtTimestamp > lastPasswordUpdateTimestamp)
             {
                 _logger?.LogWarning("Unauthorized request - Password changed after token issued.");
+
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                await context.Response.WriteAsync(
-                    $"Unauthorized {lastPasswordChangedAtTimestamp} : {lastPasswordUpdateTimestamp}");
+                await context.Response.WriteAsync("Unauthorized");
                 return;
             }
 
-
+            //set context
             context.Items["userID"] = userId;
 
             await next(context);
