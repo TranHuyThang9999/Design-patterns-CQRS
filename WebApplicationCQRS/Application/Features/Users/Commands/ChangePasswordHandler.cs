@@ -21,24 +21,27 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, Resu
     {
         try
         {
-            var user =await _userRepository.GetUserById(request.UserId);
+            var user = await _userRepository.GetUserById(request.UserId);
             if (user == null)
             {
                 _logger.LogError($"User with id {request.UserId} was not found");
-                return Result<DateTime>.Failure(ResponseCode.InternalError, $"User with id {request.UserId} was not found");
+                return Result<DateTime>.Failure(ResponseCode.InternalError,
+                    $"User with id {request.UserId} was not found");
             }
+
             if (!BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.Password))
             {
                 return Result<DateTime>.Failure(ResponseCode.Conflict, "User not found", HttpStatusCode.NotFound);
             }
+
             var model = new UserUpdateProfile();
             model.Id = request.UserId;
             model.Password = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
-            
+
             var status = await _userRepository.UpdateUserById(model);
             return Result<DateTime>.Success(DateTime.Now);
         }
-        
+
         catch (Exception e)
         {
             _logger.LogError(e.Message);
@@ -46,6 +49,4 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, Resu
                 HttpStatusCode.InternalServerError);
         }
     }
-    
-    
 }

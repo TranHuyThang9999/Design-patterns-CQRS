@@ -44,12 +44,12 @@ public class LoginHandler : IRequestHandler<LoginQuery, Result<string>>
 
             var token = _jwtService.GenerateJwtToken(user, customClaims);
             return Result<string>.Success(token);
-
         }
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
-            return Result<string>.Failure(ResponseCode.InternalError, "Internal Server Error", HttpStatusCode.InternalServerError);
+            return Result<string>.Failure(ResponseCode.InternalError, "Internal Server Error",
+                HttpStatusCode.InternalServerError);
         }
     }
 }

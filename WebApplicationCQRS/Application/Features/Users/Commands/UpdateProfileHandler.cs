@@ -23,19 +23,20 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileCommand, Result
 
     public async Task<Result<DateTime>> Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
     {
-
         try
         {
             var model = new UserUpdateProfile();
             model.Id = request.UserId;
             model.Email = request.Email;
             model.AvatarUrl = request.AvatarUrl;
-            var status =await _userRepository.UpdateUserById(model);
+            var status = await _userRepository.UpdateUserById(model);
             if (!status)
             {
                 _logger.LogError($"User with id {request.UserId} was not found");
-                return Result<DateTime>.Failure(ResponseCode.InternalError, $"User with id {request.UserId} was not found");
+                return Result<DateTime>.Failure(ResponseCode.InternalError,
+                    $"User with id {request.UserId} was not found");
             }
+
             return Result<DateTime>.Success(DateTime.Now);
         }
         catch (Exception e)
@@ -45,6 +46,4 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileCommand, Result
                 HttpStatusCode.InternalServerError);
         }
     }
-    
-    
 }

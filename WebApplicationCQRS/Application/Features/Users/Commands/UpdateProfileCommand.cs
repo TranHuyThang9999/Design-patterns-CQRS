@@ -14,12 +14,9 @@ namespace WebApplicationCQRS.Application.Features.Users.Commands
 
         public UpdateProfileCommand(int userId, string email, string avatarUrl)
         {
-
             UserId = userId;
             Email = email;
             AvatarUrl = avatarUrl?.Trim() ?? string.Empty;
         }
-        
-        
     }
 }
