@@ -9,12 +9,12 @@ using WebApplicationCQRS.Domain.Interfaces;
 // == service
 namespace WebApplicationCQRS.Application.Features.Users.Commands;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<int>>
+public class CreateUserHandler : IRequestHandler<CreateUserCommand, Result<int>>
 {
     private readonly IUserRepository _userRepository;
-    private readonly ILogger<CreateUserCommandHandler> _logger;
+    private readonly ILogger<CreateUserHandler> _logger;
 
-    public CreateUserCommandHandler(IUserRepository userRepository, ILogger<CreateUserCommandHandler> logger)
+    public CreateUserHandler(IUserRepository userRepository, ILogger<CreateUserHandler> logger)
     {
         _userRepository = userRepository;
         _logger = logger;

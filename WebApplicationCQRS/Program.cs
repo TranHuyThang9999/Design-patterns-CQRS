@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-    typeof(CreateUserCommandHandler).Assembly,
+    typeof(CreateUserHandler).Assembly,
     typeof(GetUserQueryHandler).Assembly,
     typeof(CreateTicketHandler).Assembly
 ));
