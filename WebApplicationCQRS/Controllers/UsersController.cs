@@ -51,7 +51,7 @@ public class UsersController : ControllerBase
     }
 
     [Authorize]
-    [HttpPatch("register/update")]
+    [HttpPatch("profile/update")]
     public async Task<ActionResult> UpdateProfile([FromBody] UpdateUserRequest command)
     {
         var userId = int.Parse(HttpContext.Items["userID"].ToString() ?? string.Empty);
