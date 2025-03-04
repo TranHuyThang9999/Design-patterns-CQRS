@@ -49,4 +49,16 @@ public class UsersController : ControllerBase
 
         return StatusCode((int)response.StatusCode, response);
     }
+
+    [Authorize]
+    [HttpPatch("register/update")]
+    public async Task<ActionResult> UpdateProfile([FromBody] UpdateUserRequest command)
+    {
+        var userId = int.Parse(HttpContext.Items["userID"].ToString() ?? string.Empty);
+
+        var response = await _mediator.Send(new UpdateProfileCommand(userId,command.Email, command.AvatarUrl));
+        
+        return StatusCode((int)response.StatusCode, response);
+ 
+    }
 }

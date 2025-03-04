@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 
 namespace WebApplicationCQRS.Domain.Entities;
 
@@ -21,6 +20,13 @@ public class User : BaseEntity
     [Column(TypeName = "varchar(100)")] public string Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public string AvatarUrl { get; set; }
+    [Column(TypeName = "varchar(100)")] public string AvatarUrl { get; set; }
     public DateTime LastPasswordChangedAt { get; set; }
+}
+
+
+public class UserUpdateProfile {
+    public int Id { get; set; }
+    public string Email { get; set; }
+    public string AvatarUrl { get; set; }
 }

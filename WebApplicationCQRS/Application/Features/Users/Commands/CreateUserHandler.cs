@@ -2,7 +2,6 @@ using System.Net;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebApplicationCQRS.Common.Enums;
-using WebApplicationCQRS.Domain;
 using WebApplicationCQRS.Domain.Entities;
 using WebApplicationCQRS.Domain.Interfaces;
 

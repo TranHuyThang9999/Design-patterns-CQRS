@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace WebApplicationCQRS.Application.DTOs;
@@ -21,4 +22,12 @@ public class UserDto
         Email = email;
         AvatarUrl = avatarUrl;
     }
+}
+
+public class UpdateUserRequest
+{
+    [EmailAddress]
+    public string Email { get; set; }
+    [Url]
+    public string AvatarUrl { get; set; }
 }

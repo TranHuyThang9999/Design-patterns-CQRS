@@ -34,7 +34,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(CreateUserHandler).Assembly,
     typeof(GetUserQueryHandler).Assembly,
-    typeof(CreateTicketHandler).Assembly
+    typeof(CreateTicketHandler).Assembly,
+    typeof(UpdateProfileHandler).Assembly
 ));
 
 var jwtSettings = configuration.GetRequiredSection("Jwt");
