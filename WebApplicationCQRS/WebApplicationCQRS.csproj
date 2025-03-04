@@ -24,6 +24,7 @@
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Minio" Version="6.0.4" />
+        <PackageReference Include="Minion" Version="1.1.0.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
     </ItemGroup>
 

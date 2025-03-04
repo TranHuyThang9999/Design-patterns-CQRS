@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Minio;
 using WebApplicationCQRS.Application.Features.Tickets.Commands;
 using WebApplicationCQRS.Application.Features.Users.Commands;
 using WebApplicationCQRS.Application.Features.Users.Queries;
@@ -12,12 +13,29 @@ using WebApplicationCQRS.Infrastructure.Persistence.Repositories;
 using WebApplicationCQRS.Infrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var configuration = builder.Configuration;
+
+var minioConfig = builder.Configuration.GetSection("Minio");
+string endpoint = minioConfig["Endpoint"];
+string accessKey = minioConfig["AccessKey"];
+string minioSecretKey = minioConfig["SecretKey"];
+
+builder.Services.AddSingleton<IMinioClient>(sp =>
+    new MinioClient()
+        .WithEndpoint(endpoint)
+        .WithCredentials(accessKey, minioSecretKey)
+        .Build());
+
+
+builder.Services.Configure<MinioClient>(builder.Configuration.GetSection("Minio"));
+
 
 var corsSettings = configuration.GetSection("Cors");
 var allowedOrigins = corsSettings.GetSection("AllowedOrigins").Get<string[]>() ?? new string[0];
 var allowedMethods = corsSettings.GetSection("AllowedMethods").Get<string[]>() ?? new string[] { "GET", "POST" };
-var allowedHeaders = corsSettings.GetSection("AllowedHeaders").Get<string[]>() ?? new string[] { "Content-Type", "Authorization" };
+var allowedHeaders = corsSettings.GetSection("AllowedHeaders").Get<string[]>() ??
+                     new string[] { "Content-Type", "Authorization" };
 
 builder.Services.AddCors(options =>
 {
@@ -63,7 +81,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ITicketRepository,TicketRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
 
 builder.Services.AddTransient<JwtMiddleware>();
