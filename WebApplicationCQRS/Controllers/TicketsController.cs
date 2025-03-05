@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using WebApplicationCQRS.Application.DTOs;
 using WebApplicationCQRS.Application.Features.Tickets.Commands;
 using Microsoft.AspNetCore.Mvc;
+using WebApplicationCQRS.Application.Features.Tickets.Queries;
 
 namespace WebApplicationCQRS.Controllers;
 
@@ -23,12 +24,20 @@ public class TicketsController : ControllerBase
     [HttpPost("create")]
     public async Task<ActionResult> CreateTicket([FromBody] CreateTicketDtoRequest command)
     {
-        var userId = int.Parse(HttpContext.Items["userID"].ToString() ?? string.Empty);
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
 
-        var response = await _mediator.Send(new CreateTicketCommand(userId,command.Name, command.FileDescription));
+        var response = await _mediator.Send(new CreateTicketCommand(userId ?? 0,command.Name, command.FileDescription));
         
         return StatusCode((int)response.StatusCode, response);
-        
+    }
+
+    [Authorize]
+    [HttpGet("/tickets")]
+    public async Task<ActionResult> GetTicketsByUserId()
+    {
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+        var response = await _mediator.Send(new GetTicketsByUserIDQuery(userId ?? 0));
+        return StatusCode((int)response.StatusCode, response);
     }
 
 }

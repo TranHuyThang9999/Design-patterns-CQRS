@@ -36,8 +36,8 @@ public class UsersController : ControllerBase
     [HttpGet("profile")]
     public async Task<ActionResult<List<UserDto>>> Profile()
     {
-        var userId = int.Parse(HttpContext.Items["userID"]?.ToString() ?? string.Empty);
-        var response = await _mediator.Send(new GetUserQuery(userId));
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+        var response = await _mediator.Send(new GetUserQuery(userId ?? 0));
         return StatusCode((int)response.StatusCode, new
         {
             response.Code,
