@@ -4,6 +4,7 @@ using WebApplicationCQRS.Application.DTOs;
 using WebApplicationCQRS.Application.Features.Tickets.Commands;
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationCQRS.Application.Features.Tickets.Queries;
+using WebApplicationCQRS.Application.Resources;
 
 namespace WebApplicationCQRS.Controllers;
 
@@ -28,7 +29,7 @@ public class TicketsController : ControllerBase
 
         var response = await _mediator.Send(new CreateTicketCommand(userId ?? 0,command.Name, command.FileDescription));
         
-        return StatusCode((int)response.StatusCode, response);
+        return Resources.MapResponse(this,response);
     }
 
     [Authorize]
@@ -37,7 +38,8 @@ public class TicketsController : ControllerBase
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);
         var response = await _mediator.Send(new GetTicketsByUserIDQuery(userId ?? 0));
-        return StatusCode((int)response.StatusCode, response);
+        
+        return Resources.MapResponse(this,response);
     }
 
 }

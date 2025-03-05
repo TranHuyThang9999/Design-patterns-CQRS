@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplicationCQRS.Application.DTOs;
 using WebApplicationCQRS.Application.Features.Users.Commands;
 using WebApplicationCQRS.Application.Features.Users.Queries;
+using WebApplicationCQRS.Application.Resources;
 
 namespace WebApplicationCQRS.Controllers;
 
@@ -25,11 +26,8 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
         var response = await _mediator.Send(command);
-        return StatusCode((int)response.StatusCode, new
-        {
-            response.Code,
-            response.Message,
-        });
+        return Resources.MapResponse(this,response);
+
     }
 
     [Authorize]
@@ -38,12 +36,8 @@ public class UsersController : ControllerBase
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);
         var response = await _mediator.Send(new GetUserQuery(userId ?? 0));
-        return StatusCode((int)response.StatusCode, new
-        {
-            response.Code,
-            response.Message ,
-            response.Data
-        });
+        return Resources.MapResponse(this,response);
+
     }
 
     [AllowAnonymous]
@@ -52,12 +46,8 @@ public class UsersController : ControllerBase
     {
         var response = await _mediator.Send(loginDto);
 
-        return StatusCode((int)response.StatusCode, new
-        {
-            response.Code,
-            response.Message,
-            response.Data
-        });
+        return Resources.MapResponse(this,response);
+
     }
 
     [Authorize]
@@ -68,7 +58,7 @@ public class UsersController : ControllerBase
 
         var response = await _mediator.Send(new UpdateProfileCommand(userId, command.Email, command.AvatarUrl));
 
-        return StatusCode((int)response.StatusCode, response);
+        return Resources.MapResponse(this,response);
     }
 
     [Authorize]
@@ -78,6 +68,6 @@ public class UsersController : ControllerBase
         var userId = int.Parse(HttpContext.Items["userID"]?.ToString() ?? string.Empty);
         var response = await _mediator.Send(new ChangePasswordCommand(userId, command.CurrentPassword, command.NewPassword));
         
-        return StatusCode((int)response.StatusCode, response);
+        return Resources.MapResponse(this,response);
     }
 }
