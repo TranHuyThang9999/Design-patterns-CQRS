@@ -36,9 +36,14 @@ public class UsersController : ControllerBase
     [HttpGet("profile")]
     public async Task<ActionResult<List<UserDto>>> Profile()
     {
-        var userId = int.Parse(HttpContext.Items["userID"].ToString() ?? string.Empty);
+        var userId = int.Parse(HttpContext.Items["userID"]?.ToString() ?? string.Empty);
         var response = await _mediator.Send(new GetUserQuery(userId));
-        return StatusCode((int)response.StatusCode, response);
+        return StatusCode((int)response.StatusCode, new
+        {
+            response.Code,
+            response.Message ,
+            response.Data
+        });
     }
 
     [AllowAnonymous]
@@ -47,14 +52,19 @@ public class UsersController : ControllerBase
     {
         var response = await _mediator.Send(loginDto);
 
-        return StatusCode((int)response.StatusCode, response);
+        return StatusCode((int)response.StatusCode, new
+        {
+            response.Code,
+            response.Message,
+            response.Data
+        });
     }
 
     [Authorize]
     [HttpPatch("profile/update")]
     public async Task<ActionResult> UpdateProfile([FromBody] UpdateUserRequest command)
     {
-        var userId = int.Parse(HttpContext.Items["userID"].ToString() ?? string.Empty);
+        var userId = int.Parse(HttpContext.Items["userID"]?.ToString() ?? string.Empty);
 
         var response = await _mediator.Send(new UpdateProfileCommand(userId, command.Email, command.AvatarUrl));
 
@@ -65,7 +75,7 @@ public class UsersController : ControllerBase
     [HttpPatch("profile/changePassword")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest command)
     {
-        var userId = int.Parse(HttpContext.Items["userID"].ToString() ?? string.Empty);
+        var userId = int.Parse(HttpContext.Items["userID"]?.ToString() ?? string.Empty);
         var response = await _mediator.Send(new ChangePasswordCommand(userId, command.CurrentPassword, command.NewPassword));
         
         return StatusCode((int)response.StatusCode, response);

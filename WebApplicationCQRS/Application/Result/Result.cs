@@ -9,7 +9,7 @@ public class Result<T>
     public HttpStatusCode StatusCode { get; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public T? Data { get; }
+    public T? Data { get; set; }
 
     public Result(ResponseCode code, HttpStatusCode statusCode, string message, T? data = default)
     {
