@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using WebApplicationCQRS.Domain.Entities;
 
 namespace WebApplicationCQRS.Domain.Interfaces;
@@ -5,7 +6,7 @@ namespace WebApplicationCQRS.Domain.Interfaces;
 public interface IUserRepository
 {
     Task<User?> GetUserById(int id);
-    Task<IEnumerable<User>> GetUsers();
+    Task<List<User>> GetActiveUsers();
     Task<int> CreateUser(User user);
     Task <bool>UpdateUserById(UserUpdateProfile user);
     Task DeleteUserById(int id);

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 using WebApplicationCQRS.Domain.Entities;
 using WebApplicationCQRS.Domain.Interfaces;
 using WebApplicationCQRS.Infrastructure.Persistence.Context;
@@ -19,8 +20,9 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserById(int id) =>
         await _context.Users.FindAsync(id);
 
-    public async Task<IEnumerable<User>> GetUsers() =>
+    public async Task<List<User>> GetActiveUsers() =>
         await _context.Users.ToListAsync();
+
 
     public async Task<int> CreateUser(User user)
     {

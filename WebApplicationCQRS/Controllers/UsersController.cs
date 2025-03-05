@@ -65,9 +65,18 @@ public class UsersController : ControllerBase
     [HttpPatch("profile/changePassword")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest command)
     {
-        var userId = int.Parse(HttpContext.Items["userID"]?.ToString() ?? string.Empty);
-        var response = await _mediator.Send(new ChangePasswordCommand(userId, command.CurrentPassword, command.NewPassword));
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+        var response = await _mediator.Send(new ChangePasswordCommand(userId ?? 0, command.CurrentPassword, command.NewPassword));
         
         return Resources.MapResponse(this,response);
     }
+
+    [Authorize]
+    [HttpGet("public/user")]
+    public async Task<ActionResult<List<UserDto>>> PublicUser()
+    {
+        var response = await _mediator.Send(new GetUsersQuery());
+        return Resources.MapResponse(this,response);
+    }
+    
 }
