@@ -7,12 +7,12 @@ namespace WebApplicationCQRS.Controllers;
 
 [ApiController]
 [Route("api/minio")]
-public class MinIOController : ControllerBase
+public class MinIoController : ControllerBase
 {
     private readonly IMinioClient _minioClient;
     private readonly IConfiguration _configuration;
 
-    public MinIOController(IMinioClient minioClient, IConfiguration configuration)
+    public MinIoController(IMinioClient minioClient, IConfiguration configuration)
     {
         _minioClient = minioClient;
         _configuration = configuration;
@@ -20,7 +20,7 @@ public class MinIOController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("presigned-urls")]
-    public async Task<IActionResult> GetPresignedUrls([FromBody] List<string> fileNames)
+    public async Task<IActionResult> GetPresignedUrls([FromBody] List<string>? fileNames)
     {
         if (fileNames == null || fileNames.Count == 0)
         {
