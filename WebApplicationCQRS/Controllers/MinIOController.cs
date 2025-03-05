@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Minio;
 using Minio.DataModel.Args;
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplicationCQRS.Controllers;
@@ -20,27 +18,32 @@ public class MinIOController : ControllerBase
         _configuration = configuration;
     }
 
-
     [AllowAnonymous]
-    [HttpPost("presigned-url")]
-    public async Task<IActionResult> GetPresignedUrl([FromForm] string FileName)
+    [HttpPost("presigned-urls")]
+    public async Task<IActionResult> GetPresignedUrls([FromBody] List<string> fileNames)
     {
-        if (string.IsNullOrEmpty(FileName))
+        if (fileNames == null || fileNames.Count == 0)
         {
-            return BadRequest(new { error = "FileName is required" });
+            return BadRequest(new { error = "FileNames are required" });
         }
 
         var bucketName = _configuration["Minio:BucketName"];
         var expiry = int.Parse(_configuration["Minio:Expiry"] ?? "3600");
 
-        var args = new PresignedPutObjectArgs()
-            .WithBucket(bucketName)
-            .WithObject(FileName)
-            .WithExpiry(expiry);
+        var urls = new Dictionary<string, string>();
 
-        var url = await _minioClient.PresignedPutObjectAsync(args);
+        foreach (var fileName in fileNames)
+        {
+            var args = new PresignedPutObjectArgs()
+                .WithBucket(bucketName)
+                .WithObject(fileName)
+                .WithExpiry(expiry);
 
-        return Ok(new { presignedUrl = url });
+            var url = await _minioClient.PresignedPutObjectAsync(args);
+            urls[fileName] = url;
+        }
+
+        return Ok(new { presignedUrls = urls });
     }
 
     
