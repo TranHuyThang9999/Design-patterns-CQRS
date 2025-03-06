@@ -1,3 +1,4 @@
+using WebApplicationCQRS.Application.DTOs;
 using WebApplicationCQRS.Domain.Entities;
 
 namespace WebApplicationCQRS.Domain.Interfaces;
@@ -9,6 +10,13 @@ public interface ITicketRepository
     Task UpdateTicket(Ticket ticket);
     Task DeleteTicketsById(int[] id);
     Task<Ticket?> GetTicketById(int id);
-    
-    Task <bool>CheckListTicketExists(List<int> ids);
+
+    Task<bool> CheckListTicketExists(List<int> ids);
+
+
+    /// Lấy danh sách ticket mà người dùng hiện tại được assign.
+    Task<List<Ticket>> GetTicketsAssignedToMe(int userId);
+
+    /// Lấy danh sách ticket mà người dùng hiện tại đã assign cho người khác.
+    Task<List<AssignedTickets>> GetTicketsAssignedByMe(int userId);
 }

@@ -21,3 +21,13 @@ public class TicketDtoResponse
     public string Description { get; set; }
 
 }
+
+public class AssignedTickets
+{
+    public int Id { get; set; }
+    public int AssigneeId { get; set; }
+    public string Name { get; set; }
+    public string FileDescription { get; set; }
+    
+    public string Description { get; set; }
+}

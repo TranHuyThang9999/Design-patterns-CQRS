@@ -9,11 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetAssignedTicketsHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetAssignedTicketsQuery.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/DTOs/AssignedTicketDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/DTOs/AssignedTicketDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/AssignTicketsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AssignTicketsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/DTOs/TicketDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/DTOs/TicketDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDQueryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/TicketsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/TicketsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/ITicketRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/ITicketRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/TicketRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/TicketRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +158,9 @@
       <workItem from="1741181892154" duration="11772000" />
       <workItem from="1741226208986" duration="2010000" />
       <workItem from="1741230834624" duration="6217000" />
-      <workItem from="1741242952245" duration="9123000" />
+      <workItem from="1741242952245" duration="13471000" />
+      <workItem from="1741275549734" duration="1589000" />
+      <workItem from="1741277267983" duration="3411000" />
     </task>
     <task id="LOCAL-00001" summary="add comment code middleware">
       <option name="closed" value="true" />

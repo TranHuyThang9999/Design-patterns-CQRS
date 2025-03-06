@@ -37,9 +37,19 @@ public class TicketsController : ControllerBase
     public async Task<ActionResult> GetTicketsByUserId()
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);
-        var response = await _mediator.Send(new GetTicketsByUserIDQuery(userId ?? 0));
+        var response = await _mediator.Send(new GetTicketsByUserIdQuery(userId ?? 0));
         
         return Resources.MapResponse(this,response);
     }
 
+    [Authorize]
+    [HttpGet("ticketsAssignedByMe")]
+    public async Task<ActionResult> GetTicketsAssignedByMe()
+    {
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+        var response = await _mediator.Send(new GetAssignedTicketsQuery(userId ?? 0));
+        
+        return Resources.MapResponse(this,response);
+    }
+    
 }

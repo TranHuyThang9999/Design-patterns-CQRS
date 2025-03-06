@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebApplicationCQRS.Application.DTOs;
 using WebApplicationCQRS.Domain.Entities;
 using WebApplicationCQRS.Domain.Interfaces;
 using WebApplicationCQRS.Infrastructure.Persistence.Context;
@@ -55,6 +56,33 @@ public class TicketRepository : ITicketRepository
         return count == ids.Count;
     }
 
+    /// Lấy danh sách ticket mà người dùng hiện tại được assign.
+    public async Task<List<Ticket>> GetTicketsAssignedToMe(int userId)
+    {
+        throw new NotImplementedException();
+    }
 
+    /// Lấy danh sách ticket mà đã assign cho người khác.
+    public async Task<List<AssignedTickets>> GetTicketsAssignedByMe(int userId)
+    {
+        return await _context.AssignedTickets
+            .Where(at => at.AssignerId == userId)
+            .Join(
+                _context.Tickets,
+                at => at.TicketId,
+                t => t.Id,
+                (at, t) => new AssignedTickets
+                {
+                    Id = t.Id,  // ID của Ticket
+                    AssigneeId = at.AssigneeId,  // Người nhận Ticket
+                    Name = t.Name,  // Giả sử `Ticket` có trường `Name`
+                    FileDescription = t.FileDescription,  // Giả sử có trường này
+                    Description = t.Description  // Mô tả Ticket
+                }
+            )
+            .ToListAsync();
+    }
+
+    
     
 }
