@@ -9,4 +9,6 @@ public interface ITicketRepository
     Task UpdateTicket(Ticket ticket);
     Task DeleteTicketsById(int[] id);
     Task<Ticket?> GetTicketById(int id);
+    
+    Task <bool>CheckListTicketExists(List<int> ids);
 }

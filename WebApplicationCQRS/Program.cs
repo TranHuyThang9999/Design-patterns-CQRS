@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Minio;
+using WebApplicationCQRS.Application.Features.AssignedTickets.Commands;
 using WebApplicationCQRS.Application.Features.Tickets.Commands;
 using WebApplicationCQRS.Application.Features.Tickets.Queries;
 using WebApplicationCQRS.Application.Features.Users.Commands;
@@ -55,7 +56,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(GetUserQueryHandler).Assembly,
     typeof(CreateTicketHandler).Assembly,
     typeof(UpdateProfileHandler).Assembly,
-    typeof(GetTicketsByUserIdQueryHandler).Assembly
+    typeof(GetTicketsByUserIdQueryHandler).Assembly,
+    typeof(AssignedTicketsHandler).Assembly
 ));
 
 var jwtSettings = configuration.GetRequiredSection("Jwt");

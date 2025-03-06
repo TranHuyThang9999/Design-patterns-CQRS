@@ -42,4 +42,19 @@ public class TicketRepository : ITicketRepository
     {
         return await _context.Tickets.Where(u => u.Id == id).FirstOrDefaultAsync();
     }
+
+    public async Task<bool> CheckListTicketExists(List<int> ids)
+    {
+        if (ids == null || ids.Count == 0)
+            return false;
+
+        var count = await _context.Tickets
+            .Where(u => ids.Contains(u.Id))
+            .CountAsync();
+
+        return count == ids.Count;
+    }
+
+
+    
 }

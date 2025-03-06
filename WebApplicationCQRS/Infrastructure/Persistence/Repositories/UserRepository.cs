@@ -67,8 +67,15 @@ public class UserRepository : IUserRepository
         return await _context.Users.FirstOrDefaultAsync(u => u.Name == username);
     }
 
-    public Task<bool> CheckListUserExistsByUserIDs(int[] userIDs)
+    public async Task<bool> CheckListUserExistsByUserIDs(List<int> userIDs)
     {
-        throw new NotImplementedException();
+        if (userIDs == null || userIDs.Count == 0)
+            return false;
+        var count = await _context.Users
+            .Where(u => userIDs.Contains(u.Id))
+            .CountAsync();
+
+        return count == userIDs.Count;
     }
+
 }

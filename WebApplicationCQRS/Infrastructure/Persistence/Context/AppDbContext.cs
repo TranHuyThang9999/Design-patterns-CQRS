@@ -55,7 +55,6 @@ public class AppDbContext : DbContext
 
                 if (deletedAtProperty != null && deletedAtProperty.PropertyType == typeof(DateTime?))
                 {
-                    // Thực hiện xóa mềm
                     deletedAtProperty.SetValue(entity, DateTime.UtcNow);
                     entry.State = EntityState.Modified;
                 }

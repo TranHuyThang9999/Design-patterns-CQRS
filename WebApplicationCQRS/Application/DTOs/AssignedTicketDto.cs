@@ -6,13 +6,13 @@ public class AssignedTicketDto
 
     public int AssigneeId { get; set; } // Người được giao ticket
 
-    public int AssignerId { get; set; } // Người giao ticket
-    
-    public AssignedTicketDto(){}
-    public AssignedTicketDto(int ticketId, int assigneeId, int assignerId)
+    public AssignedTicketDto()
+    {
+    }
+
+    public AssignedTicketDto(int ticketId, int assigneeId)
     {
         TicketId = ticketId;
         AssigneeId = assigneeId;
-        AssignerId = assignerId;
     }
 }
