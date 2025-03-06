@@ -2,17 +2,17 @@ namespace WebApplicationCQRS.Application.DTOs;
 
 public class AssignedTicketDto
 {
-    public int TicketId { get; set; }
+    public List<int> TicketIds { get; set; }
 
-    public int AssigneeId { get; set; } // Người được giao ticket
+    public List<int> AssigneeIds { get; set; } // Người được giao ticket
 
     public AssignedTicketDto()
     {
     }
 
-    public AssignedTicketDto(int ticketId, int assigneeId)
+    public AssignedTicketDto(List<int> ticketIds, List<int> assigneeIds)
     {
-        TicketId = ticketId;
-        AssigneeId = assigneeId;
+        TicketIds = ticketIds;
+        AssigneeIds = assigneeIds;
     }
 }

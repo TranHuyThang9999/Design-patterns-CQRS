@@ -11,11 +11,13 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
     private readonly IAssignedTicket _assignedTicket;
     private readonly IUserRepository _userRepository;
     private readonly ITicketRepository _ticketRepository;
+
     public AssignedTicketsHandler()
     {
     }
 
-    public AssignedTicketsHandler(IAssignedTicket assignedTicket, IUserRepository userRepository, ITicketRepository ticketRepository)
+    public AssignedTicketsHandler(IAssignedTicket assignedTicket, IUserRepository userRepository,
+        ITicketRepository ticketRepository)
     {
         _assignedTicket = assignedTicket;
         _userRepository = userRepository;
@@ -27,58 +29,56 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
     {
         try
         {
-            List<int>userIDs = new List<int>();
+            List<int> userIDs = new List<int> { request.AssignerId };
+            userIDs.AddRange(request.Tickets.AssigneeIds);
             List<int> ticketIDs = new List<int>();
-            
-            // 1️⃣ Kiểm tra: Một người nhận nhiều ticket, nhưng không có ticket nào trùng nhau
-            var hasDuplicateTickets = request.Tickets
-                .GroupBy(t => new { t.AssigneeId, t.TicketId })
-                .Any(g => g.Count() > 1);
+            ticketIDs.AddRange(request.Tickets.TicketIds);
 
-            if (hasDuplicateTickets)
+            // ✅ 2️⃣ Kiểm tra không có ticket nào trùng nhau
+            if (ticketIDs.Distinct().Count() != ticketIDs.Count)
             {
-                return Result<int>.Failure(ResponseCode.Conflict, "A user cannot be assigned the same ticket multiple times.");            }
-
-            // 2️⃣ Kiểm tra: Không có 2 user giống nhau trong danh sách (mỗi user chỉ xuất hiện một lần)
-            var hasDuplicateAssignee = request.Tickets
-                .GroupBy(t => t.AssigneeId)
-                .Any(g => g.Count() > 1);
-
-            if (hasDuplicateAssignee)
-            {
-                return Result<int>.Failure(ResponseCode.Conflict, "The assigner and the assignee cannot be the same.");            }
-
-            // 3️⃣ Kiểm tra: AssignerId và AssigneeId không được trùng nhau
-            var hasSelfAssignedTicket = request.Tickets
-                .Any(u => u.AssigneeId == request.AssignerId);
-
-            if (hasSelfAssignedTicket)
-            {
-                return Result<int>.Failure(ResponseCode.Conflict, "The assigner and the assignee cannot be the same.");
+                return Result<int>.Failure(ResponseCode.Conflict, "Duplicate tickets are not allowed.");
             }
 
-            userIDs.Add(request.AssignerId);
-            foreach (var _v in request.Tickets)
+            // ✅ 3️⃣ Kiểm tra không có 2 user trùng nhau
+            if (userIDs.Distinct().Count() != userIDs.Count)
             {
-                userIDs.Add(_v.AssigneeId);   
+                return Result<int>.Failure(ResponseCode.Conflict, "Duplicate users are not allowed.");
             }
-            var existsUserIds =await _userRepository.CheckListUserExistsByUserIDs(userIDs);
+
+            // ✅ 4️⃣ Kiểm tra AssignerId không trùng với AssigneeIds
+            if (request.Tickets.AssigneeIds.Contains(request.AssignerId))
+            {
+                return Result<int>.Failure(ResponseCode.Conflict, "Assigner cannot be an assignee.");
+            }
+
+            var existsUserIds = await _userRepository.CheckListUserExistsByUserIDs(userIDs);
             if (!existsUserIds)
             {
-                return Result<int>.Failure(ResponseCode.NotFound, "One or more users do not exist.");            }
+                return Result<int>.Failure(ResponseCode.NotFound, "One or more users do not exist.");
+            }
+
             var existsTicketIds = await _ticketRepository.CheckListTicketExists(ticketIDs);
             if (!existsTicketIds)
             {
-                return Result<int>.Failure(ResponseCode.NotFound, "One or more tickets do not exist.");            }
-            
-            // Chuyển đổi request thành danh sách AssignedTicket
-            var assignedTickets = request.Tickets.Select(ticket => new AssignedTicket
-            {
-                TicketId = ticket.TicketId,
-                AssigneeId = ticket.AssigneeId,
-                AssignerId = request.AssignerId
-            }).ToList();
+                return Result<int>.Failure(ResponseCode.NotFound, "One or more tickets do not exist.");
+            }
 
+
+            List<AssignedTicket> assignedTickets = new List<AssignedTicket>();
+
+            foreach (var ticketId in ticketIDs)
+            {
+                foreach (var assigneeId in request.Tickets.AssigneeIds)
+                {
+                    assignedTickets.Add(new AssignedTicket
+                    {
+                        TicketId = ticketId,
+                        AssignerId = request.AssignerId,
+                        AssigneeId = assigneeId
+                    });
+                }
+            }
             await _assignedTicket.CreateAssignTicketF(assignedTickets);
 
             return Result<int>.Success(assignedTickets.Count);
@@ -88,6 +88,4 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
             return Result<int>.Failure(ResponseCode.InternalError, e.Message);
         }
     }
-    
-    
 }

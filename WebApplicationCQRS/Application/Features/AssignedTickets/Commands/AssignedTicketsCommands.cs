@@ -7,17 +7,16 @@ namespace WebApplicationCQRS.Application.Features.AssignedTickets.Commands;
 
 public class AssignTicketsCommand : IRequest<Result<int>>
 {
-    [JsonIgnore] 
-    [BindNever]
-    public int AssignerId { get; set; }
-    public List<AssignedTicketDto> Tickets { get; set; }
+    [JsonIgnore] [BindNever] public int AssignerId { get; set; }
+    public AssignedTicketDto Tickets { get; set; }
 
     public AssignTicketsCommand()
     {
     }
 
-    public AssignTicketsCommand(List<AssignedTicketDto> tickets)
+    public AssignTicketsCommand(int assignerId, AssignedTicketDto tickets)
     {
+        AssignerId = assignerId;
         Tickets = tickets;
     }
 }

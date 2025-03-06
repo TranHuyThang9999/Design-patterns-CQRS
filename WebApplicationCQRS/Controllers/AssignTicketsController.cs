@@ -23,7 +23,8 @@ public class AssignTicketsController : ControllerBase
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);
         command.AssignerId = userId ?? 0;
-        var response = await _mediator.Send(command);
+        
+        var response = await _mediator.Send(new  AssignTicketsCommand(command.AssignerId, command.Tickets));
         return Resources.MapResponse(this, response);
     }
 }
