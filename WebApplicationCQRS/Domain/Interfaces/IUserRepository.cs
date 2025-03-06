@@ -11,4 +11,6 @@ public interface IUserRepository
     Task <bool>UpdateUserById(UserUpdateProfile user);
     Task DeleteUserById(int id);
     Task<User> GetUserByUsername(string username);
+    
+    Task<bool>CheckListUserExistsByUserIDs(int[]  userIDs);
 }

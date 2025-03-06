@@ -4,21 +4,30 @@ namespace WebApplicationCQRS.Domain.Entities;
 
 public class AssignedTicket : BaseEntity
 {
-    public AssignedTicket(int ticketId, int userId, Ticket ticket, User user)
+    public AssignedTicket(int ticketId, int assigneeId, int assignerId, Ticket ticket, User assignee, User assigner)
     {
         TicketId = ticketId;
-        UserId = userId;
+        AssigneeId = assigneeId;
+        AssignerId = assignerId;
         Ticket = ticket;
-        User = user;
+        Assignee = assignee;
+        Assigner = assigner;
     }
-    public AssignedTicket(){}
+    
+    public AssignedTicket() { }
+
     public int TicketId { get; set; }
 
-    public int UserId { get; set; }
+    public int AssigneeId { get; set; } // Người được giao ticket
+
+    public int AssignerId { get; set; } // Người giao ticket
 
     [ForeignKey("TicketId")]
     public Ticket Ticket { get; set; }
 
-    [ForeignKey("UserId")]
-    public User User { get; set; }
+    [ForeignKey("AssigneeId")]
+    public User Assignee { get; set; }  // Người nhận ticket
+
+    [ForeignKey("AssignerId")]
+    public User Assigner { get; set; }  // Người giao ticket
 }

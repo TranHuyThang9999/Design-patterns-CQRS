@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
         : base(options)
     {
     }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<AssignedTicket> AssignedTickets { get; set; }
@@ -16,8 +17,8 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().HasIndex(u => u.Name).IsUnique();
-        
-        
+
+
         modelBuilder.Entity<AssignedTicket>()
             .HasOne(at => at.Ticket)
             .WithMany()
@@ -25,10 +26,36 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<AssignedTicket>()
-            .HasOne(at => at.User)
+            .HasOne(at => at.Assignee) // Người nhận
             .WithMany()
-            .HasForeignKey(at => at.UserId)
+            .HasForeignKey(at => at.AssigneeId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<AssignedTicket>()
+            .HasOne(at => at.Assigner) // Người giao
+            .WithMany()
+            .HasForeignKey(at => at.AssignerId)
+            .OnDelete(DeleteBehavior.Restrict); // Không xóa nếu người giao bị xóa
     }
 
+    public override int SaveChanges()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            if (entry.State == EntityState.Deleted)
+            {
+                var entity = entry.Entity;
+                var deletedAtProperty = entity.GetType().GetProperty("DeletedAt");
+
+                if (deletedAtProperty != null && deletedAtProperty.PropertyType == typeof(DateTime?))
+                {
+                    // Thực hiện xóa mềm
+                    deletedAtProperty.SetValue(entity, DateTime.UtcNow);
+                    entry.State = EntityState.Modified;
+                }
+            }
+        }
+
+        return base.SaveChanges();
+    }
 }

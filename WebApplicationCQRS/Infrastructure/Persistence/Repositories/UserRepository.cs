@@ -66,4 +66,9 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Name == username);
     }
+
+    public Task<bool> CheckListUserExistsByUserIDs(int[] userIDs)
+    {
+        throw new NotImplementedException();
+    }
 }
