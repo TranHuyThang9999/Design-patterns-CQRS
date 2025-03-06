@@ -9,6 +9,8 @@ public class AppDbContext : DbContext
         : base(options)
     {
     }
+    public AppDbContext() { }
+
 
     public DbSet<User> Users { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
@@ -36,6 +38,10 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(at => at.AssignerId)
             .OnDelete(DeleteBehavior.Restrict); // Không xóa nếu người giao bị xóa
+        
+        modelBuilder.Entity<AssignedTicket>()
+            .HasIndex(at => new { at.AssigneeId, at.TicketId })
+            .IsUnique(); // UNIQUE Constraint
     }
 
     public override int SaveChanges()

@@ -9,16 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Application/DTOs/AssignedTicketDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsCommands.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/AssignedTicketRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Domain/Entities/AssignedTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Entities/AssignedTicket.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Folder.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Folder.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Context/AppDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Context/AppDbContext.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Migrations/AppDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplicationCQRS.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplicationCQRS.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +153,7 @@
       <workItem from="1741142598348" duration="3485000" />
       <workItem from="1741181892154" duration="11772000" />
       <workItem from="1741226208986" duration="2010000" />
-      <workItem from="1741230834624" duration="1627000" />
+      <workItem from="1741230834624" duration="3033000" />
     </task>
     <task id="LOCAL-00001" summary="add comment code middleware">
       <option name="closed" value="true" />

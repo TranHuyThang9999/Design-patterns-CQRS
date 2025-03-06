@@ -85,6 +85,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
+builder.Services.AddScoped<IAssignedTicket, AssignedTicketRepository>();
 
 builder.Services.AddTransient<JwtMiddleware>();
 
