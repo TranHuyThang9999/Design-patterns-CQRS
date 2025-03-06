@@ -9,11 +9,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUsersQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUsersQuery.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUsersQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUsersQueryHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IUserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/UserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/DTOs/TicketDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/DTOs/TicketDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Commands/CreateTicketCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Commands/CreateTicketCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Commands/CreateTicketHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Commands/CreateTicketHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDQueryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/TicketsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/TicketsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Entities/Ticket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Entities/Ticket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Migrations/AppDbContextModelSnapshot.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +156,7 @@
       <workItem from="1741181892154" duration="11772000" />
       <workItem from="1741226208986" duration="2010000" />
       <workItem from="1741230834624" duration="6217000" />
-      <workItem from="1741242952245" duration="2616000" />
+      <workItem from="1741242952245" duration="7167000" />
     </task>
     <task id="LOCAL-00001" summary="add comment code middleware">
       <option name="closed" value="true" />

@@ -27,13 +27,13 @@ public class TicketsController : ControllerBase
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);
 
-        var response = await _mediator.Send(new CreateTicketCommand(userId ?? 0,command.Name, command.FileDescription));
+        var response = await _mediator.Send(new CreateTicketCommand(userId ?? 0,command.Name, command.FileDescription,command.Description));
         
         return Resources.MapResponse(this,response);
     }
 
     [Authorize]
-    [HttpGet("/tickets")]
+    [HttpGet("tickets")]
     public async Task<ActionResult> GetTicketsByUserId()
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);

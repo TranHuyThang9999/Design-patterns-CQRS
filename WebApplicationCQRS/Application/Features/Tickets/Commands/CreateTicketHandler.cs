@@ -20,7 +20,7 @@ public class CreateTicketHandler : IRequestHandler<CreateTicketCommand, Result<i
         try
         {
             var ticketID = await 
-                _ticketRepository.AddTicket(new Ticket(request.CreatorId, request.Name, request.FileDescription));
+                _ticketRepository.AddTicket(new Ticket(request.CreatorId, request.Name, request.FileDescription,request.Description));
             return Result<int>.Success(ticketID, "Ticket Created Successfully");
         }
         catch (Exception e)

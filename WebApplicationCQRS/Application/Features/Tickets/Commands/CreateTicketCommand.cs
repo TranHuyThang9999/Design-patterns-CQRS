@@ -9,11 +9,15 @@ public class CreateTicketCommand : IRequest<Result<int>>
     public int CreatorId { get; set; }
     public string Name { get; set; }
     public string FileDescription { set; get; }
+    public string Description { get; set; }
+
     public CreateTicketCommand(){}
-    public CreateTicketCommand(int creatorId,string name, string fileDescription)
+
+    public CreateTicketCommand(int creatorId, string name, string fileDescription, string description)
     {
         CreatorId = creatorId;
-        Name = name?.Trim() ?? string.Empty;
+        Name = name;
         FileDescription = fileDescription;
+        Description = description;
     }
 }

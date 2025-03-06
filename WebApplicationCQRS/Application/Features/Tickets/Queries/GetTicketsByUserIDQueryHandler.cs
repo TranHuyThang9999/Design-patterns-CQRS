@@ -25,7 +25,10 @@ public class GetTicketsByUserIdQueryHandler :IRequestHandler<GetTicketsByUserIDQ
             {
                 ticketMapper.Add(new TicketDtoResponse()
                 {
-                    Id = VARIABLE.Id, Name = VARIABLE.Name,FileDescription =  VARIABLE.FileDescription
+                    Id = VARIABLE.Id, 
+                    Name = VARIABLE.Name,
+                    FileDescription =  VARIABLE.FileDescription,
+                    Description = VARIABLE.Description,
                 });
             }
             return Result<List<TicketDtoResponse>>.Success(ticketMapper);
