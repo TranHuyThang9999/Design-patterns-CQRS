@@ -15,7 +15,7 @@ public interface ITicketRepository
 
 
     /// Lấy danh sách ticket mà người dùng hiện tại được assign.
-    Task<List<Ticket>> GetTicketsAssignedToMe(int userId);
+    Task<List<ReceivedAssignedTicketDTO>> GetTicketsAssignedToMe(int userId);
 
     /// Lấy danh sách ticket mà người dùng hiện tại đã assign cho người khác.
     Task<List<AssignedTickets>> GetTicketsAssignedByMe(int userId);

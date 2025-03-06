@@ -52,4 +52,15 @@ public class TicketsController : ControllerBase
         return Resources.MapResponse(this,response);
     }
     
+    [Authorize]
+    [HttpGet("assignedToMe")]
+    public async Task<ActionResult> GetReceivedAssignedTickets()
+    {
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+        var response = await _mediator.Send(new GetReceivedAssignedTicketsQuery(userId ?? 0));
+
+        return Resources.MapResponse(this,response);
+    }
+
+    
 }
