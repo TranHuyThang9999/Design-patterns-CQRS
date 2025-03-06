@@ -6,7 +6,7 @@ namespace WebApplicationCQRS.Domain.Interfaces;
 public interface IUserRepository
 {
     Task<User?> GetUserById(int id);
-    Task<List<User>> GetActiveUsers();
+    Task<List<User>> GetActiveUsers(int currentUserId);
     Task<int> CreateUser(User user);
     Task <bool>UpdateUserById(UserUpdateProfile user);
     Task DeleteUserById(int id);

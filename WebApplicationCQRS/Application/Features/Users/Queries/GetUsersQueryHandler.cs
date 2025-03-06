@@ -19,7 +19,7 @@ public class GetUsersQueryHandler :IRequestHandler<GetUsersQuery, Result<List<Us
         try
         {
             List<UserDto>users = new List<UserDto>();
-            var usersRepo = await _userRepository.GetActiveUsers();
+            var usersRepo = await _userRepository.GetActiveUsers(request.CurrentUserId);
             foreach (var VARIABLE in usersRepo)
             {
                 

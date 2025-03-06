@@ -20,9 +20,10 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserById(int id) =>
         await _context.Users.FindAsync(id);
 
-    public async Task<List<User>> GetActiveUsers() =>
-        await _context.Users.ToListAsync();
-
+    public async Task<List<User>> GetActiveUsers(int currentUserId) =>
+        await _context.Users
+            .Where(u => u.Id != currentUserId)
+            .ToListAsync();
 
     public async Task<int> CreateUser(User user)
     {
@@ -47,7 +48,7 @@ public class UserRepository : IUserRepository
 
         if (!string.IsNullOrWhiteSpace(userDto.Password))
             userToUpdate.Password = userDto.Password;
-            userToUpdate.LastPasswordChangedAt = DateTime.Now;
+        userToUpdate.LastPasswordChangedAt = DateTime.Now;
         await _context.SaveChangesAsync();
         return true;
     }
@@ -77,5 +78,4 @@ public class UserRepository : IUserRepository
 
         return count == userIDs.Count;
     }
-
 }

@@ -72,10 +72,11 @@ public class UsersController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("public/user")]
+    [HttpGet("public/users")]
     public async Task<ActionResult<List<UserDto>>> PublicUser()
     {
-        var response = await _mediator.Send(new GetUsersQuery());
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+        var response = await _mediator.Send(new GetUsersQuery(userId ?? 0));
         return Resources.MapResponse(this,response);
     }
     
