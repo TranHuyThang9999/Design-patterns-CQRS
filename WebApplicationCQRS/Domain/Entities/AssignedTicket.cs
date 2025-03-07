@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using WebApplicationCQRS.Common.Enums;
 
 namespace WebApplicationCQRS.Domain.Entities;
 
@@ -22,6 +23,8 @@ public class AssignedTicket : BaseEntity
     public int AssigneeId { get; set; } // Người được giao ticket
 
     public int AssignerId { get; set; } // Người giao ticket
+    
+    public AssignedTicketStatus  Status { get; set; } 
 
     [ForeignKey("TicketId")]
     public Ticket Ticket { get; set; }

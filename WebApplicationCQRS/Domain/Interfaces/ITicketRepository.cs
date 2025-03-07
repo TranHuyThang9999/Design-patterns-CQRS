@@ -19,4 +19,6 @@ public interface ITicketRepository
 
     /// Lấy danh sách ticket mà người dùng hiện tại đã assign cho người khác.
     Task<List<AssignedTickets>> GetTicketsAssignedByMe(int userId);
+
+    Task<bool> CheckIfUserIsCreatorOfTickets(int creatorId, List<int> ticketIds);
 }

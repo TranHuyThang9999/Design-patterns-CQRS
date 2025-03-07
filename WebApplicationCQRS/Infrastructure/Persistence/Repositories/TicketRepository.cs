@@ -94,9 +94,18 @@ public class TicketRepository : ITicketRepository
                     Name = t.Name,
                     FileDescription = t.FileDescription,
                     Description = t.Description,
-                    CreatedAt =  t.CreatedAt,
+                    CreatedAt = t.CreatedAt,
                 }
             )
             .ToListAsync();
+    }
+
+    public async Task<bool> CheckIfUserIsCreatorOfTickets(int creatorId, List<int> ticketIds)
+    {
+        var count = await _context.Tickets
+            .Where(t => t.CreatorId == creatorId && ticketIds.Contains(t.Id))
+            .CountAsync();
+
+        return count == ticketIds.Count;
     }
 }

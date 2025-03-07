@@ -40,7 +40,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict); // Không xóa nếu người giao bị xóa
         
         modelBuilder.Entity<AssignedTicket>()
-            .HasIndex(at => new { at.AssigneeId, at.TicketId })
+            .HasIndex(at => new { at.AssigneeId, at.TicketId ,at.Status})
             .IsUnique(); // UNIQUE Constraint
     }
 

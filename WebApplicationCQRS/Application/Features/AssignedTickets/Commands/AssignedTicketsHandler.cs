@@ -64,6 +64,11 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
                 return Result<int>.Failure(ResponseCode.NotFound, "One or more tickets do not exist.");
             }
 
+            var allTicketsExist = await _ticketRepository.CheckListTicketExists(ticketIDs);
+            if (!allTicketsExist)
+            {
+                return Result<int>.Failure(ResponseCode.NotFound, "Some tickets do not exist.");
+            }
 
             List<AssignedTicket> assignedTickets = new List<AssignedTicket>();
 
@@ -75,10 +80,12 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
                     {
                         TicketId = ticketId,
                         AssignerId = request.AssignerId,
-                        AssigneeId = assigneeId
+                        AssigneeId = assigneeId,
+                        Status = AssignedTicketStatus.Assigned
                     });
                 }
             }
+
             await _assignedTicket.CreateAssignTicketF(assignedTickets);
 
             return Result<int>.Success(assignedTickets.Count);
