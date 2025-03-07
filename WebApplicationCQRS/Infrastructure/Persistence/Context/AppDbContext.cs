@@ -15,7 +15,8 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<AssignedTicket> AssignedTickets { get; set; }
-
+    
+    public DbSet<HistoryAssignTicket> HistoryAssignTickets { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().HasIndex(u => u.Name).IsUnique();
@@ -42,6 +43,18 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<AssignedTicket>()
             .HasIndex(at => new { at.AssigneeId, at.TicketId ,at.Status})
             .IsUnique(); // UNIQUE Constraint
+        
+        modelBuilder.Entity<HistoryAssignTicket>()
+            .HasOne(h => h.OldAssignee)
+            .WithMany()
+            .HasForeignKey(h => h.OldAssigneeId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<HistoryAssignTicket>()
+            .HasOne(h => h.NewAssignee)
+            .WithMany()
+            .HasForeignKey(h => h.NewAssigneeId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 
     public override int SaveChanges()

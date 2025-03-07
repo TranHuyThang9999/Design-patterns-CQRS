@@ -60,6 +60,40 @@ namespace WebApplicationCQRS.Migrations
                     b.ToTable("AssignedTickets");
                 });
 
+            modelBuilder.Entity("WebApplicationCQRS.Domain.Entities.HistoryAssignTicket", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AssignedTicketId")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NewAssigneeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OldAssigneeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedTicketId");
+
+                    b.HasIndex("NewAssigneeId");
+
+                    b.HasIndex("OldAssigneeId");
+
+                    b.ToTable("HistoryAssignTickets");
+                });
+
             modelBuilder.Entity("WebApplicationCQRS.Domain.Entities.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -160,6 +194,33 @@ namespace WebApplicationCQRS.Migrations
                     b.Navigation("Assigner");
 
                     b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("WebApplicationCQRS.Domain.Entities.HistoryAssignTicket", b =>
+                {
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.AssignedTicket", "AssignedTicket")
+                        .WithMany()
+                        .HasForeignKey("AssignedTicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "NewAssignee")
+                        .WithMany()
+                        .HasForeignKey("NewAssigneeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "OldAssignee")
+                        .WithMany()
+                        .HasForeignKey("OldAssigneeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTicket");
+
+                    b.Navigation("NewAssignee");
+
+                    b.Navigation("OldAssignee");
                 });
 #pragma warning restore 612, 618
         }

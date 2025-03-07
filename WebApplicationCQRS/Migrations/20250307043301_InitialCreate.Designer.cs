@@ -12,8 +12,8 @@ using WebApplicationCQRS.Infrastructure.Persistence.Context;
 namespace WebApplicationCQRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250306083911_AddDescriptionToTicket")]
-    partial class AddDescriptionToTicket
+    [Migration("20250307043301_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,9 @@ namespace WebApplicationCQRS.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
 
@@ -54,10 +57,44 @@ namespace WebApplicationCQRS.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.HasIndex("AssigneeId", "TicketId")
+                    b.HasIndex("AssigneeId", "TicketId", "Status")
                         .IsUnique();
 
                     b.ToTable("AssignedTickets");
+                });
+
+            modelBuilder.Entity("WebApplicationCQRS.Domain.Entities.HistoryAssignTicket", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AssignedTicketId")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NewAssigneeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OldAssigneeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedTicketId");
+
+                    b.HasIndex("NewAssigneeId");
+
+                    b.HasIndex("OldAssigneeId");
+
+                    b.ToTable("HistoryAssignTickets");
                 });
 
             modelBuilder.Entity("WebApplicationCQRS.Domain.Entities.Ticket", b =>
@@ -160,6 +197,33 @@ namespace WebApplicationCQRS.Migrations
                     b.Navigation("Assigner");
 
                     b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("WebApplicationCQRS.Domain.Entities.HistoryAssignTicket", b =>
+                {
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.AssignedTicket", "AssignedTicket")
+                        .WithMany()
+                        .HasForeignKey("AssignedTicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "NewAssignee")
+                        .WithMany()
+                        .HasForeignKey("NewAssigneeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "OldAssignee")
+                        .WithMany()
+                        .HasForeignKey("OldAssigneeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTicket");
+
+                    b.Navigation("NewAssignee");
+
+                    b.Navigation("OldAssignee");
                 });
 #pragma warning restore 612, 618
         }

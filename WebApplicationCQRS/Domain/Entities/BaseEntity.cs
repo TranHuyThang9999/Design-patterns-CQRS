@@ -7,7 +7,7 @@ public abstract class BaseEntity
 {
     protected BaseEntity()
     {
-        Id = Random.Shared.Next(1,1000);
+        Id = Random.Shared.Next(1,10000);
         CreatedAt = DateOnly.FromDateTime(DateTime.Now);
         UpdatedAt = DateTime.Now;
     }
