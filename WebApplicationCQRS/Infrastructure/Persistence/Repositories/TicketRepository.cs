@@ -93,7 +93,8 @@ public class TicketRepository : ITicketRepository
                     AssigneeId = at.AssigneeId,
                     Name = t.Name,
                     FileDescription = t.FileDescription,
-                    Description = t.Description
+                    Description = t.Description,
+                    CreatedAt =  t.CreatedAt,
                 }
             )
             .ToListAsync();

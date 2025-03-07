@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WebApplicationCQRS.Application.DTOs;
 
@@ -27,9 +28,12 @@ public class AssignedTickets
     public int Id { get; set; }
     public int AssigneeId { get; set; }
     public string Name { get; set; }
+    [JsonIgnore]
     public string FileDescription { get; set; }
     
     public string Description { get; set; }
+    
+    public DateOnly CreatedAt { get; set; }
 }
 
 public class ReceivedAssignedTicketDTO
