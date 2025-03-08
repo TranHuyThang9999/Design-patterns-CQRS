@@ -19,13 +19,14 @@ public class UnitOfWork : IUnitOfWork
         try
         {
             var result = await operation();
+            await _context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
             return result;
         }
-        catch
+        catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
-            throw;
+            return default!;
         }
     }
 }

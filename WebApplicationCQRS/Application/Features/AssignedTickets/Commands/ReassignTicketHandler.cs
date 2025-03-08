@@ -23,9 +23,9 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
 
     public async Task<Result<int>> Handle(ReassignTicketCommand request, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.ExecuteTransactionAsync(async () =>
+        try
         {
-            try
+            var result = await _unitOfWork.ExecuteTransactionAsync(async () =>
             {
                 if (request.NewAssigneeId == request.OldAssigneeId)
                 {
@@ -53,21 +53,26 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
                     {
                         TicketId = assaign.TicketId,
                         AssignerId = request.OldAssigneeId,
-                        AssigneeId = assaign.AssigneeId,
+                        AssigneeId = request.NewAssigneeId,
                         Status = AssignedTicketStatus.Reassigned
                     }
                 };
 
                 await _assignedTicket.CreateAssignTicketF(assignedTickets);
-                
+
                 assaign.Status = AssignedTicketStatus.Transferred;
                 await _assignedTicket.UpdateAssignedTicket(assaign);
                 return Result<int>.Success(historyAssignTicketId);
-            }
-            catch (Exception e)
-            {
-                return Result<int>.Failure(ResponseCode.InternalError, e.Message);
-            }
-        }, cancellationToken);
+            }, cancellationToken);
+
+            // 🔹 Nếu `result` là null, trả về lỗi chung chung
+            return result ?? Result<int>.Failure(ResponseCode.InternalError, "Unexpected error occurred.");
+        }
+        catch (Exception)
+        {
+            return Result<int>.Failure(ResponseCode.InternalError, "error in reassigning ticket");
+        }
     }
+
+    
 }

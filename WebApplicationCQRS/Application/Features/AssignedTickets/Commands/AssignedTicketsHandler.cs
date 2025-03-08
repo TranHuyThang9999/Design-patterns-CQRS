@@ -86,7 +86,7 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
                 }
             }
 
-            await _assignedTicket.CreateAssignTicketF(assignedTickets);
+            await _assignedTicket.CreateAssignTicketF(assignedTickets,false);
 
             return Result<int>.Success(assignedTickets.Count);
         }

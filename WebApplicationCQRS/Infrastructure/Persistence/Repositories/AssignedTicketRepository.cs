@@ -13,10 +13,13 @@ public class AssignedTicketRepository : IAssignedTicket
         _context = context;
     }
 
-    public Task CreateAssignTicketF(List<AssignedTicket> ticket)
+    public async Task CreateAssignTicketF(List<AssignedTicket> ticket,bool useTransaction = true)
     {
         _context.AssignedTickets.AddRange(ticket);
-        return _context.SaveChangesAsync();
+        if (!useTransaction)
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<AssignedTicket?> GetAssignedTicketById(int id)
@@ -28,7 +31,6 @@ public class AssignedTicketRepository : IAssignedTicket
     public async Task UpdateAssignedTicket(AssignedTicket ticket)
     {
         _context.AssignedTickets.Update(ticket);
-        await _context.SaveChangesAsync();
     }
 
 }

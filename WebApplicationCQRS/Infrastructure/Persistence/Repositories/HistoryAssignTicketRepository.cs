@@ -16,7 +16,6 @@ public class HistoryAssignTicketRepository :IHistoryAssignTicketRepository
     public async Task<int> AssignTicketToAnotherUser(HistoryAssignTicket request)
     {
         await _context.HistoryAssignTickets.AddAsync(request);
-        await _context.SaveChangesAsync();
         return request.Id;
     }
 }

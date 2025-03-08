@@ -4,10 +4,8 @@ namespace WebApplicationCQRS.Domain.Interfaces;
 
 public interface IAssignedTicket
 {
-    /// <summary>
     /// Tạo danh sách ticket được assign.
-    /// </summary>
-    Task CreateAssignTicketF(List<AssignedTicket> tickets);
+    Task CreateAssignTicketF(List<AssignedTicket> tickets,bool useTransaction = true);
     Task<AssignedTicket>GetAssignedTicketById(int id);
     Task UpdateAssignedTicket(AssignedTicket ticket);
 }
