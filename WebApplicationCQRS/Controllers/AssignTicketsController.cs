@@ -23,8 +23,19 @@ public class AssignTicketsController : ControllerBase
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);
         command.AssignerId = userId ?? 0;
-        
-        var response = await _mediator.Send(new  AssignTicketsCommand(command.AssignerId, command.Tickets));
+
+        var response = await _mediator.Send(new AssignTicketsCommand(command.AssignerId, command.Tickets));
+        return Resources.MapResponse(this, response);
+    }
+
+    [Authorize]
+    [HttpPost("reassignTicket")]
+    public async Task<ActionResult> ReassignTicket([FromBody] ReassignTicketCommand command)
+    {
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+        command.OldAssigneeId = userId ?? 0;
+        var response =
+            await _mediator.Send(command);
         return Resources.MapResponse(this, response);
     }
 }

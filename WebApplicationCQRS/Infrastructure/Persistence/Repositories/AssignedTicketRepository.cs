@@ -18,4 +18,17 @@ public class AssignedTicketRepository : IAssignedTicket
         _context.AssignedTickets.AddRange(ticket);
         return _context.SaveChangesAsync();
     }
+
+    public async Task<AssignedTicket?> GetAssignedTicketById(int id)
+    {
+        var ticket = await _context.AssignedTickets.FindAsync(id);
+        return ticket ?? null;
+    }
+
+    public async Task UpdateAssignedTicket(AssignedTicket ticket)
+    {
+        _context.AssignedTickets.Update(ticket);
+        await _context.SaveChangesAsync();
+    }
+
 }

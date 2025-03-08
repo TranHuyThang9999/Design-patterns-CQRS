@@ -30,6 +30,8 @@
 
     <ItemGroup>
       <Folder Include="Application\Features\AssignedTickets\Queries\" />
+      <Folder Include="Application\Features\HistoryAssignTicket\Commands\" />
+      <Folder Include="Application\Features\HistoryAssignTicket\Queries\" />
     </ItemGroup>
 
 </Project>

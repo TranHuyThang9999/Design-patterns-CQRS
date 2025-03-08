@@ -8,4 +8,6 @@ public interface IAssignedTicket
     /// Tạo danh sách ticket được assign.
     /// </summary>
     Task CreateAssignTicketF(List<AssignedTicket> tickets);
+    Task<AssignedTicket>GetAssignedTicketById(int id);
+    Task UpdateAssignedTicket(AssignedTicket ticket);
 }

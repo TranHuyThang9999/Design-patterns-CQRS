@@ -9,7 +9,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Interfaces/IHistoryAssignTicket.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Domain/Interfaces/IUnitOfWork.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/HistoryAssignTicketRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/UnitOfWork.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Enums/AssignedTicketStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Enums/AssignedTicketStatus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/AssignTicketsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AssignTicketsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Entities/HistoryAssignTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Entities/HistoryAssignTicket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/AssignedTicketRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/AssignedTicketRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplicationCQRS.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplicationCQRS.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,12 +39,27 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/031a4bb8bd1549cbb5cf427a886cf3e71dc400/f2/d933b264/ControllerBase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/24dfed82e76f4ff38a0735bfd901ef52b2e000/92/9351f325/Task.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/487c75b751d24cb28476ad047630ef048848/17/7d13765e/DeleteBehavior.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6753b151eaf047d495c4b9d5fde32208291020/82/8e104056/DbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d9de85ef61604c57bb50b8cac968bd371a00/8d/cd036c50/IRequest`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f7f0b4bc7eaa43e7850b0e3b59fc23ee13600/a8/aa941479/ClaimTypes.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fb69109d67c049a0b5cb5b15b6653f9112c00/b2/542dcca0/ISender.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7b710f6a0201548f1aee385dbfe20b7cdd629fb378894c7978f7ca5936a28/ConfigurationExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e0a1b44db18ac79690f2cc6980f338f54171bdd565f0db3efde3485febdf4e0/PresignedPutObjectArgs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ed2e2f6b6c4dfa81f4d445e4bb22b3b191b43fc073753331ffbb2b17f0e5d3a0/IObjectOperations.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Controllers/UsersController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Controllers/UsersController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Controllers/UsersController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Migrations/20250307043301_InitialCreate.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Migrations/20250307043301_InitialCreate.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -58,6 +86,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -152,6 +181,7 @@
       <workItem from="1741242952245" duration="13471000" />
       <workItem from="1741275549734" duration="1589000" />
       <workItem from="1741277267983" duration="8690000" />
+      <workItem from="1741439288771" duration="961000" />
     </task>
     <task id="LOCAL-00001" summary="add comment code middleware">
       <option name="closed" value="true" />
@@ -169,9 +199,19 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="add comment code middleware" />
-    <option name="LAST_COMMIT_MESSAGE" value="add comment code middleware" />
   </component>
 </project>

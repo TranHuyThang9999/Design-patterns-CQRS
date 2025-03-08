@@ -10,6 +10,17 @@ namespace WebApplicationCQRS.Domain.Entities;
 /// </summary>
 public class HistoryAssignTicket : BaseEntity
 {
+    public HistoryAssignTicket(int assignedTicketId, int oldAssigneeId, int newAssigneeId, AssignedTicket assignedTicket, User oldAssignee, User newAssignee)
+    {
+        AssignedTicketId = assignedTicketId;
+        OldAssigneeId = oldAssigneeId;
+        NewAssigneeId = newAssigneeId;
+        AssignedTicket = assignedTicket;
+        OldAssignee = oldAssignee;
+        NewAssignee = newAssignee;
+    }
+    public HistoryAssignTicket(){}
+
     /// <summary>
     /// ID của bản ghi trong bảng AssignedTickets.
     /// </summary>

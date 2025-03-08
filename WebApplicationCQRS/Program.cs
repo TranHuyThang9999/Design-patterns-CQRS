@@ -57,7 +57,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(CreateTicketHandler).Assembly,
     typeof(UpdateProfileHandler).Assembly,
     typeof(GetTicketsByUserIdQueryHandler).Assembly,
-    typeof(AssignedTicketsHandler).Assembly
+    typeof(AssignedTicketsHandler).Assembly,
+    typeof(ReassignTicketHandler).Assembly
 ));
 
 var jwtSettings = configuration.GetRequiredSection("Jwt");
@@ -88,6 +89,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
 builder.Services.AddScoped<IAssignedTicket, AssignedTicketRepository>();
+builder.Services.AddScoped<IHistoryAssignTicketRepository, HistoryAssignTicketRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddTransient<JwtMiddleware>();
 
