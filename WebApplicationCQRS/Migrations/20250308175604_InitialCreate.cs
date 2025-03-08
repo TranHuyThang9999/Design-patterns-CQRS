@@ -90,9 +90,8 @@ namespace WebApplicationCQRS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     AssignedTicketId = table.Column<int>(type: "int", nullable: false),
-                    OldAssigneeId = table.Column<int>(type: "int", nullable: false),
                     NewAssigneeId = table.Column<int>(type: "int", nullable: false),
-                    previousAssigneeId = table.Column<int>(type: "int", nullable: false),
+                    PreviousAssigneeId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -112,8 +111,8 @@ namespace WebApplicationCQRS.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_HistoryAssignTickets_Users_OldAssigneeId",
-                        column: x => x.OldAssigneeId,
+                        name: "FK_HistoryAssignTickets_Users_PreviousAssigneeId",
+                        column: x => x.PreviousAssigneeId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -145,9 +144,9 @@ namespace WebApplicationCQRS.Migrations
                 column: "NewAssigneeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistoryAssignTickets_OldAssigneeId",
+                name: "IX_HistoryAssignTickets_PreviousAssigneeId",
                 table: "HistoryAssignTickets",
-                column: "OldAssigneeId");
+                column: "PreviousAssigneeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Name",

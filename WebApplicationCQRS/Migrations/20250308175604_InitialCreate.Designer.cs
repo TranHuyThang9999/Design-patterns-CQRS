@@ -12,7 +12,7 @@ using WebApplicationCQRS.Infrastructure.Persistence.Context;
 namespace WebApplicationCQRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250308174534_InitialCreate")]
+    [Migration("20250308175604_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -80,14 +80,11 @@ namespace WebApplicationCQRS.Migrations
                     b.Property<int>("NewAssigneeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OldAssigneeId")
+                    b.Property<int>("PreviousAssigneeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("previousAssigneeId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -95,7 +92,7 @@ namespace WebApplicationCQRS.Migrations
 
                     b.HasIndex("NewAssigneeId");
 
-                    b.HasIndex("OldAssigneeId");
+                    b.HasIndex("PreviousAssigneeId");
 
                     b.ToTable("HistoryAssignTickets");
                 });
@@ -216,9 +213,9 @@ namespace WebApplicationCQRS.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "PreviousAssigneeId")
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "PreviousAssignee")
                         .WithMany()
-                        .HasForeignKey("OldAssigneeId")
+                        .HasForeignKey("PreviousAssigneeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -226,7 +223,7 @@ namespace WebApplicationCQRS.Migrations
 
                     b.Navigation("NewAssignee");
 
-                    b.Navigation("PreviousAssigneeId");
+                    b.Navigation("PreviousAssignee");
                 });
 #pragma warning restore 612, 618
         }

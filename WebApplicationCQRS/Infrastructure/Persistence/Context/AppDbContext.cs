@@ -45,9 +45,9 @@ public class AppDbContext : DbContext
             .IsUnique(); // UNIQUE Constraint
         
         modelBuilder.Entity<HistoryAssignTicket>()
-            .HasOne(h => h.PreviousAssigneeId)
+            .HasOne(h => h.PreviousAssignee)
             .WithMany()
-            .HasForeignKey(h => h.OldAssigneeId)
+            .HasForeignKey(h => h.PreviousAssigneeId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<HistoryAssignTicket>()

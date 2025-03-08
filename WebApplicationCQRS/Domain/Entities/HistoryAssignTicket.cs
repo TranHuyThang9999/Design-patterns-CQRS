@@ -10,16 +10,17 @@ namespace WebApplicationCQRS.Domain.Entities;
 /// </summary>
 public class HistoryAssignTicket : BaseEntity
 {
-    public HistoryAssignTicket(int assignedTicketId, int oldAssigneeId, int newAssigneeId, AssignedTicket assignedTicket, User previousAssigneeId, User newAssignee)
+    public HistoryAssignTicket(int assignedTicketId, int previousAssigneeId, int newAssigneeId, AssignedTicket assignedTicket, User previousAssignee, User newAssignee)
     {
         AssignedTicketId = assignedTicketId;
-        OldAssigneeId = oldAssigneeId;
+        PreviousAssigneeId = previousAssigneeId; // Sửa lỗi gán đúng kiểu dữ liệu
         NewAssigneeId = newAssigneeId;
         AssignedTicket = assignedTicket;
-        PreviousAssigneeId = previousAssigneeId;
+        PreviousAssignee = previousAssignee;
         NewAssignee = newAssignee;
     }
-    public HistoryAssignTicket(){}
+    
+    public HistoryAssignTicket() {}
 
     /// <summary>
     /// ID của bản ghi trong bảng AssignedTickets.
@@ -27,15 +28,14 @@ public class HistoryAssignTicket : BaseEntity
     public int AssignedTicketId { get; set; }
 
     /// <summary>
-    /// ID của người được assign trước đó (người cũ).
-    /// </summary>
-    public int OldAssigneeId { get; set; }
-
-    /// <summary>
     /// ID của người mới được assign ticket.
     /// </summary>
     public int NewAssigneeId { get; set; }
-    // 🛠 Navigation Properties - Dùng để truy xuất dữ liệu liên kết
+
+    /// <summary>
+    /// ID của người đã assign trước đó (người cũ).
+    /// </summary>
+    public int PreviousAssigneeId { get; set; }
 
     /// <summary>
     /// Thông tin bản ghi assign tương ứng trong bảng AssignedTickets.
@@ -46,8 +46,8 @@ public class HistoryAssignTicket : BaseEntity
     /// <summary>
     /// Thông tin người được assign trước đó (người cũ).
     /// </summary>
-    [ForeignKey("previousAssigneeId")]
-    public User PreviousAssigneeId { get; set; }
+    [ForeignKey("PreviousAssigneeId")]
+    public User PreviousAssignee { get; set; }
 
     /// <summary>
     /// Thông tin người mới được assign ticket.
