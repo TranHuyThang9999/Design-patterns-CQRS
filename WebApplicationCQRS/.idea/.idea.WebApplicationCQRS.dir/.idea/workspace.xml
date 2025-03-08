@@ -10,10 +10,9 @@
   <component name="ChangeListManager">
     <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Domain/Entities/HistoryAssignTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Entities/HistoryAssignTicket.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/AssignedTicketRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/AssignedTicketRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/DTOs/AssignedTicketDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/DTOs/AssignedTicketDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/DTOs/TicketDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/DTOs/TicketDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/TicketRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/TicketRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +160,7 @@
       <workItem from="1741275549734" duration="1589000" />
       <workItem from="1741277267983" duration="8690000" />
       <workItem from="1741439288771" duration="961000" />
-      <workItem from="1741474037700" duration="12144000" />
+      <workItem from="1741474037700" duration="16391000" />
     </task>
     <task id="LOCAL-00001" summary="add comment code middleware">
       <option name="closed" value="true" />

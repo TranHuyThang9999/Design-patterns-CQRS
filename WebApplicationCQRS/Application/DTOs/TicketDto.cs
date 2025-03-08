@@ -38,6 +38,7 @@ public class AssignedTickets
 
 public class ReceivedAssignedTicketDTO
 {
+    public int AssignedTicketId { get; set; }
     public int TicketId { get; set; } 
     public string Name { get; set; }
     public string Description { get; set; }

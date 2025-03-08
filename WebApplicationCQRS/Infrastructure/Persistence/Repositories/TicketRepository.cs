@@ -67,6 +67,7 @@ public class TicketRepository : ITicketRepository
                 t => t.Id,
                 (at, t) => new ReceivedAssignedTicketDTO
                 {
+                    AssignedTicketId =  at.Id,
                     TicketId = t.Id,
                     Name = t.Name,
                     Description = t.Description,
