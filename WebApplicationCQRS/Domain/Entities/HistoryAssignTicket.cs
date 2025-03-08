@@ -10,13 +10,13 @@ namespace WebApplicationCQRS.Domain.Entities;
 /// </summary>
 public class HistoryAssignTicket : BaseEntity
 {
-    public HistoryAssignTicket(int assignedTicketId, int oldAssigneeId, int newAssigneeId, AssignedTicket assignedTicket, User oldAssignee, User newAssignee)
+    public HistoryAssignTicket(int assignedTicketId, int oldAssigneeId, int newAssigneeId, AssignedTicket assignedTicket, User previousAssigneeId, User newAssignee)
     {
         AssignedTicketId = assignedTicketId;
         OldAssigneeId = oldAssigneeId;
         NewAssigneeId = newAssigneeId;
         AssignedTicket = assignedTicket;
-        OldAssignee = oldAssignee;
+        PreviousAssigneeId = previousAssigneeId;
         NewAssignee = newAssignee;
     }
     public HistoryAssignTicket(){}
@@ -46,8 +46,8 @@ public class HistoryAssignTicket : BaseEntity
     /// <summary>
     /// Thông tin người được assign trước đó (người cũ).
     /// </summary>
-    [ForeignKey("OldAssigneeId")]
-    public User OldAssignee { get; set; }
+    [ForeignKey("previousAssigneeId")]
+    public User PreviousAssigneeId { get; set; }
 
     /// <summary>
     /// Thông tin người mới được assign ticket.

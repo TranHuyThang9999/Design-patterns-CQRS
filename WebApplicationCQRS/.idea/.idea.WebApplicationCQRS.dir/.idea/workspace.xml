@@ -11,12 +11,13 @@
     <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Resources/Resources.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Resources/Resources.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IAssignedTicket.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/AssignedTicketRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/AssignedTicketRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/AssignTicketsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AssignTicketsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Entities/HistoryAssignTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Entities/HistoryAssignTicket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IHistoryAssignTicket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IHistoryAssignTicket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Context/AppDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Context/AppDbContext.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/HistoryAssignTicketRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/HistoryAssignTicketRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/UnitOfWork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/UnitOfWork.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,19 +42,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e0a1b44db18ac79690f2cc6980f338f54171bdd565f0db3efde3485febdf4e0/PresignedPutObjectArgs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ed2e2f6b6c4dfa81f4d445e4bb22b3b191b43fc073753331ffbb2b17f0e5d3a0/IObjectOperations.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Controllers/UsersController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Controllers/UsersController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Controllers/UsersController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Migrations/20250307043301_InitialCreate.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Migrations/20250307043301_InitialCreate.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://ReassignTicketCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -176,7 +165,7 @@
       <workItem from="1741275549734" duration="1589000" />
       <workItem from="1741277267983" duration="8690000" />
       <workItem from="1741439288771" duration="961000" />
-      <workItem from="1741474037700" duration="4530000" />
+      <workItem from="1741474037700" duration="6955000" />
     </task>
     <task id="LOCAL-00001" summary="add comment code middleware">
       <option name="closed" value="true" />

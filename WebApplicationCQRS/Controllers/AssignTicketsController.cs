@@ -33,7 +33,7 @@ public class AssignTicketsController : ControllerBase
     public async Task<ActionResult> ReassignTicket([FromBody] ReassignTicketCommand command)
     {
         int? userId = HttpContextHelper.GetUserId(HttpContext);
-        command.OldAssigneeId = userId ?? 0;
+        command.PreviousAssigneeId = userId ?? 0;
         var response =
             await _mediator.Send(command);
         return Resources.MapResponse(this, response);

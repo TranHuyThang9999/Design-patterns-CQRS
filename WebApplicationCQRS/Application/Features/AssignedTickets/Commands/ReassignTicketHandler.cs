@@ -27,21 +27,36 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
         {
             var result = await _unitOfWork.ExecuteTransactionAsync(async () =>
             {
-                if (request.NewAssigneeId == request.OldAssigneeId)
+                List<int> userIDs = new List<int> { request.PreviousAssigneeId };
+                userIDs.AddRange(request.NewAssigneeIds);
+                List<int> ticketIDs = new List<int>();
+                ticketIDs.AddRange(request.AssignedTicketIds);
+
+                // ✅ 2️⃣ Kiểm tra không có ticket nào trùng nhau
+                if (ticketIDs.Distinct().Count() != ticketIDs.Count)
                 {
                     return Result<int>.Failure(ResponseCode.Conflict, "Duplicate tickets are not allowed.");
                 }
 
-                var model = new HistoryAssignTicket
+                // ✅ 3️⃣ Kiểm tra không có 2 user trùng nhau
+                if (userIDs.Distinct().Count() != userIDs.Count)
                 {
-                    AssignedTicketId = request.AssignedTicketId,
-                    OldAssigneeId = request.OldAssigneeId,
-                    NewAssigneeId = request.NewAssigneeId
+                    return Result<int>.Failure(ResponseCode.Conflict, "Duplicate users are not allowed.");
+                }
+
+                var historyAssignTickets = new List<HistoryAssignTicket>
+                {
+                    new HistoryAssignTicket(
+                        
+                        // AssignedTicketId = request.AssignedTicketId,
+                        // OldAssigneeId = request.OldAssigneeId,
+                        // NewAssigneeId = request.NewAssigneeId
+                    )
                 };
+                
+                    await _historyAssignTicketRepository.AssignTicketToAnotherUser(historyAssignTickets);
 
-                var historyAssignTicketId = await _historyAssignTicketRepository.AssignTicketToAnotherUser(model);
-
-                var assaign = await _assignedTicket.GetAssignedTicketById(request.AssignedTicketId);
+                var assaign = await _assignedTicket.GetAssignedTicketById(0);
                 if (assaign is null)
                 {
                     return Result<int>.Failure(ResponseCode.NotFound, "Ticket not found");
@@ -52,8 +67,8 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
                     new AssignedTicket
                     {
                         TicketId = assaign.TicketId,
-                        AssignerId = request.OldAssigneeId,
-                        AssigneeId = request.NewAssigneeId,
+                        AssignerId = request.PreviousAssigneeId,
+                        AssigneeId = request.NewAssigneeIds[0],
                         Status = AssignedTicketStatus.Reassigned
                     }
                 };
@@ -62,7 +77,7 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
 
                 assaign.Status = AssignedTicketStatus.Transferred;
                 await _assignedTicket.UpdateAssignedTicket(assaign);
-                return Result<int>.Success(historyAssignTicketId);
+                return Result<int>.Success(0);
             }, cancellationToken);
 
             // 🔹 Nếu `result` là null, trả về lỗi chung chung
@@ -73,6 +88,4 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
             return Result<int>.Failure(ResponseCode.InternalError, "error in reassigning ticket");
         }
     }
-
-    
 }

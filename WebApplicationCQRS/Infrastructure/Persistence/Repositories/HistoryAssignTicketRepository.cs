@@ -13,9 +13,8 @@ public class HistoryAssignTicketRepository :IHistoryAssignTicketRepository
         _context = context;
     }
 
-    public async Task<int> AssignTicketToAnotherUser(HistoryAssignTicket request)
+    public async Task AssignTicketToAnotherUser(List<HistoryAssignTicket> request)
     {
-        await _context.HistoryAssignTickets.AddAsync(request);
-        return request.Id;
+        await _context.HistoryAssignTickets.AddRangeAsync(request);
     }
 }

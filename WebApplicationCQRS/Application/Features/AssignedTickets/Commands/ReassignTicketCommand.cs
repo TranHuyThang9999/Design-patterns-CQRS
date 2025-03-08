@@ -5,21 +5,24 @@ namespace WebApplicationCQRS.Application.Features.AssignedTickets.Commands;
 
 public class ReassignTicketCommand : IRequest<Result<int>>
 {
-    public ReassignTicketCommand(int assignedTicketId, int oldAssigneeId, int newAssigneeId)
+    public ReassignTicketCommand(List<int> assignedTicketIds, int previousAssigneeId, List<int> newAssigneeIds)
     {
-        AssignedTicketId = assignedTicketId;
-        OldAssigneeId = oldAssigneeId;
-        NewAssigneeId = newAssigneeId;
+        AssignedTicketIds = assignedTicketIds;
+        PreviousAssigneeId = previousAssigneeId;
+        NewAssigneeIds = newAssigneeIds;
     }
-
+    
     public ReassignTicketCommand()
     {
     }
-    public int AssignedTicketId { get; set; }
 
-    /// ID của người được assign trước đó (người cũ).
-    public int OldAssigneeId { get; set; }
+    /// Danh sách ID của các ticket cần được reassigned.
+    public List<int> AssignedTicketIds { get; set; }
 
-    /// ID của người mới được assign ticket.
-    public int NewAssigneeId { get; set; }
+    /// ID của người được assign trước đó (người cũ). for me
+    [JsonIgnore]
+    public int PreviousAssigneeId { get; set; }
+
+    /// Danh sách ID của những người mới sẽ nhận ticket.
+    public List<int> NewAssigneeIds { get; set; }
 }

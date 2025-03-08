@@ -92,6 +92,7 @@ namespace WebApplicationCQRS.Migrations
                     AssignedTicketId = table.Column<int>(type: "int", nullable: false),
                     OldAssigneeId = table.Column<int>(type: "int", nullable: false),
                     NewAssigneeId = table.Column<int>(type: "int", nullable: false),
+                    previousAssigneeId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)

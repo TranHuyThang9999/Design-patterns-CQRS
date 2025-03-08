@@ -34,23 +34,18 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
             List<int> ticketIDs = new List<int>();
             ticketIDs.AddRange(request.Tickets.TicketIds);
 
-            // ✅ 2️⃣ Kiểm tra không có ticket nào trùng nhau
+            // ✅ 1 Kiểm tra không có ticket nào trùng nhau
             if (ticketIDs.Distinct().Count() != ticketIDs.Count)
             {
                 return Result<int>.Failure(ResponseCode.Conflict, "Duplicate tickets are not allowed.");
             }
 
-            // ✅ 3️⃣ Kiểm tra không có 2 user trùng nhau
+            // ✅ 2 Kiểm tra không có 2 user trùng nhau
             if (userIDs.Distinct().Count() != userIDs.Count)
             {
                 return Result<int>.Failure(ResponseCode.Conflict, "Duplicate users are not allowed.");
             }
-
-            // ✅ 4️⃣ Kiểm tra AssignerId không trùng với AssigneeIds
-            if (request.Tickets.AssigneeIds.Contains(request.AssignerId))
-            {
-                return Result<int>.Failure(ResponseCode.Conflict, "Assigner cannot be an assignee.");
-            }
+            
 
             var existsUserIds = await _userRepository.CheckListUserExistsByUserIDs(userIDs);
             if (!existsUserIds)

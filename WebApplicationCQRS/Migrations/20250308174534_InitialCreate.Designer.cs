@@ -12,7 +12,7 @@ using WebApplicationCQRS.Infrastructure.Persistence.Context;
 namespace WebApplicationCQRS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250307043301_InitialCreate")]
+    [Migration("20250308174534_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -85,6 +85,9 @@ namespace WebApplicationCQRS.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("previousAssigneeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -213,7 +216,7 @@ namespace WebApplicationCQRS.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "OldAssignee")
+                    b.HasOne("WebApplicationCQRS.Domain.Entities.User", "PreviousAssigneeId")
                         .WithMany()
                         .HasForeignKey("OldAssigneeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -223,7 +226,7 @@ namespace WebApplicationCQRS.Migrations
 
                     b.Navigation("NewAssignee");
 
-                    b.Navigation("OldAssignee");
+                    b.Navigation("PreviousAssigneeId");
                 });
 #pragma warning restore 612, 618
         }
