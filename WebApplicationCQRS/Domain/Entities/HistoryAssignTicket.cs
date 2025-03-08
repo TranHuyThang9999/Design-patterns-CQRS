@@ -13,7 +13,7 @@ public class HistoryAssignTicket : BaseEntity
     public HistoryAssignTicket(int assignedTicketId, int previousAssigneeId, int newAssigneeId, AssignedTicket assignedTicket, User previousAssignee, User newAssignee)
     {
         AssignedTicketId = assignedTicketId;
-        PreviousAssigneeId = previousAssigneeId; // Sửa lỗi gán đúng kiểu dữ liệu
+        PreviousAssigneeId = previousAssigneeId;
         NewAssigneeId = newAssigneeId;
         AssignedTicket = assignedTicket;
         PreviousAssignee = previousAssignee;
