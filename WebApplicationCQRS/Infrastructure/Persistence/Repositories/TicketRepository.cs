@@ -180,13 +180,7 @@ public class TicketRepository : ITicketRepository
         // Using EF Core's FromSqlRaw to execute raw SQL with LIKE operator
         var query = from t in _context.Tickets
             join at in _context.AssignedTickets on t.Id equals at.TicketId into assignedTickets
-            from at in assignedTickets.DefaultIfEmpty() // Left join
-            join u1 in _context.Users on t.CreatorId equals u1.Id
-            join u2 in _context.Users on at.AssigneeId equals u2.Id into assignees
-            from u2 in assignees.DefaultIfEmpty() // Left join
-            join u3 in _context.Users on at.AssignerId equals u3.Id into assigners
-            from u3 in assigners.DefaultIfEmpty() // Left join
-            where (t.CreatorId == userId || at.AssigneeId == userId || at.AssignerId == userId)
+            where (t.CreatorId == userId || assignedTickets.Any(at => at.AssigneeId == userId || at.AssignerId == userId))
                   && EF.Functions.Like(t.Name, $"%{ticketName}%")
             select new AssignedTicketDetail
             {
@@ -195,15 +189,26 @@ public class TicketRepository : ITicketRepository
                 Description = t.Description,
                 FileDescription = t.FileDescription,
                 CreatorId = t.CreatorId,
-                AssigneeId = at.AssigneeId,
-                AssigneeName = u2.Name ?? "N/A", // If no assignee, return "N/A"
-                AssignerId = at.AssignerId,
-                AssignerName = u3.Name ?? "N/A", // If no assigner, return "N/A"
-                Status = at.Status,
-                AssignedAt = at.UpdatedAt // Or another field if needed
+
+                // Lấy Assignee đầu tiên theo thời gian giao
+                FirstAssginId = assignedTickets.OrderBy(at => at.CreatedAt).Select(at => at.AssigneeId).FirstOrDefault(),
+                FirstAssginName = assignedTickets.OrderBy(at => at.CreatedAt).Select(at => at.Assignee.Name).FirstOrDefault(),
+
+                // Gộp danh sách Assignee
+                AssigneeId = assignedTickets.Select(at => at.AssigneeId).FirstOrDefault(),
+                AssigneeName = string.Join(", ", assignedTickets.Select(at => at.Assignee.Name).Distinct()),
+
+                // Gộp danh sách Assigner
+                AssignerId = assignedTickets.Select(at => at.AssignerId).FirstOrDefault(),
+                AssignerName = string.Join(", ", assignedTickets.Select(at => at.Assigner.Name).Distinct()),
+
+                Status = assignedTickets.OrderByDescending(at => at.UpdatedAt).Select(at => at.Status).FirstOrDefault(),
+                AssignedAt = assignedTickets.OrderByDescending(at => at.UpdatedAt).Select(at => at.UpdatedAt).FirstOrDefault()
             };
 
         return await query.ToListAsync();
+
+
     }
 
 }
