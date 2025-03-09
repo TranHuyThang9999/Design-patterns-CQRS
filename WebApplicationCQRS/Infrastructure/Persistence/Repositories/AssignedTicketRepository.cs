@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 using WebApplicationCQRS.Domain.Entities;
 using WebApplicationCQRS.Domain.Interfaces;
 using WebApplicationCQRS.Infrastructure.Persistence.Context;
@@ -14,13 +15,17 @@ public class AssignedTicketRepository : IAssignedTicket
         _context = context;
     }
 
-    public async Task CreateAssignTicketF(List<AssignedTicket> ticket, bool useTransaction = true)
+    public async Task<List<int>> CreateAssignTicketF(List<AssignedTicket> tickets, bool useTransaction = true)
     {
-        _context.AssignedTickets.AddRange(ticket);
+        _context.AssignedTickets.AddRange(tickets);
+
         if (!useTransaction)
         {
             await _context.SaveChangesAsync();
         }
+
+        // ✅ Lấy danh sách ID sau khi lưu
+        return tickets.Select(t => t.Id).ToList();
     }
 
     public async Task<List<AssignedTicket>> GetAssignedTicketsByIds(List<int> ids)
