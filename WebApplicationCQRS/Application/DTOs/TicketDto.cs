@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using WebApplicationCQRS.Common.Enums;
 
 namespace WebApplicationCQRS.Application.DTOs;
 
@@ -49,3 +50,21 @@ public class ReceivedAssignedTicketDTO
     
     public DateTime TimeAssign { get; set; }
 }
+
+
+public class AssignedTicketDetail
+{
+    public int TicketId { get; set; }
+    public string TicketName { get; set; }
+    public int CreatorId { get; set; }
+    
+    public int? AssigneeId { get; set; }
+    public string AssigneeName { get; set; }
+    
+    public int? AssignerId { get; set; }
+    public string AssignerName { get; set; }
+    
+    public AssignedTicketStatus? Status { get; set; }
+    public DateTime? AssignedAt { get; set; }
+}
+

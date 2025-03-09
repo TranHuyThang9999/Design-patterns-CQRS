@@ -63,7 +63,7 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
                     return Result<int>.Failure(ResponseCode.NotFound, "Ticket not found");
                 }
 
-                for (int i = 0; i < pendingAssignedTicketsUpdates.Count; i++) // ✅ Duyệt theo danh sách hợp lệ
+                for (int i = 0; i < pendingAssignedTicketsUpdates.Count; i++)
                 {
                     for (int j = 0; j < request.NewAssigneeIds.Count; j++)
                     {
@@ -78,7 +78,7 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
                         {
                             AssigneeId = request.NewAssigneeIds[j],
                             AssignerId = request.PreviousAssigneeId,
-                            TicketId = pendingAssignedTicketsUpdates[i].TicketId, // ✅ Sửa lỗi
+                            TicketId = pendingAssignedTicketsUpdates[i].TicketId,
                         });
                     }
                 }

@@ -6,7 +6,7 @@ using WebApplicationCQRS.Domain.Interfaces;
 
 namespace WebApplicationCQRS.Application.Features.Tickets.Queries;
 
-public class GetTicketsByUserIdQueryHandler : IRequestHandler<GetTicketsByUserIdQuery, Result<List<TicketDtoResponse>>>
+public class GetTicketsByUserIdQueryHandler : IRequestHandler<GetTicketsByUserIdQuery, Result<List<AssignedTicketDetail>>>
 {
     private readonly ITicketRepository _ticketRepository;
 
@@ -15,30 +15,21 @@ public class GetTicketsByUserIdQueryHandler : IRequestHandler<GetTicketsByUserId
         _ticketRepository = ticketRepository;
     }
 
-    public async Task<Result<List<TicketDtoResponse>>> Handle(GetTicketsByUserIdQuery request,
+    public async Task<Result<List<AssignedTicketDetail>>> Handle(GetTicketsByUserIdQuery request,
         CancellationToken cancellationToken)
     {
         try
         {
-            List<TicketDtoResponse> ticketMapper = new List<TicketDtoResponse>();
+         //   List<TicketDtoResponse> ticketMapper = new List<TicketDtoResponse>();
 
             var tickets = await _ticketRepository.GetTicketsByCreatorId(request.UserId);
-            foreach (var VARIABLE in tickets)
-            {
-                ticketMapper.Add(new TicketDtoResponse()
-                {
-                    Id = VARIABLE.Id,
-                    Name = VARIABLE.Name,
-                    FileDescription = VARIABLE.FileDescription,
-                    Description = VARIABLE.Description,
-                });
-            }
+          
 
-            return Result<List<TicketDtoResponse>>.Success(ticketMapper);
+            return Result<List<AssignedTicketDetail>>.Success(tickets);
         }
         catch (Exception e)
         {
-            return Result<List<TicketDtoResponse>>.Failure(ResponseCode.InternalError, e.Message);
+            return Result<List<AssignedTicketDetail>>.Failure(ResponseCode.InternalError, e.Message);
         }
     }
 }
