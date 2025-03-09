@@ -58,7 +58,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(UpdateProfileHandler).Assembly,
     typeof(GetTicketsByUserIDHandler).Assembly,
     typeof(AssignedTicketsHandler).Assembly,
-    typeof(ReassignTicketHandler).Assembly
+    typeof(ReassignTicketHandler).Assembly,
+    typeof(SearchTicketsHandler).Assembly
 ));
 
 var jwtSettings = configuration.GetRequiredSection("Jwt");
