@@ -62,5 +62,16 @@ public class TicketsController : ControllerBase
         return Resources.MapResponse(this,response);
     }
 
+    [Authorize]
+    [HttpGet("search")]
+    public async Task<ActionResult> SearchTicketsByName([FromQuery] string ticketName)
+    {
+        int? userId = HttpContextHelper.GetUserId(HttpContext);
+    
+        var response = await _mediator.Send(new SearchTicketsQuery(userId ?? 0, ticketName ?? ""));
+    
+        return Resources.MapResponse(this, response);
+    }
+
     
 }

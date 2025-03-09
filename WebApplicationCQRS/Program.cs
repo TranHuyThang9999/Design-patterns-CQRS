@@ -56,7 +56,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(GetUserQueryHandler).Assembly,
     typeof(CreateTicketHandler).Assembly,
     typeof(UpdateProfileHandler).Assembly,
-    typeof(GetTicketsByUserIdQueryHandler).Assembly,
+    typeof(GetTicketsByUserIDHandler).Assembly,
     typeof(AssignedTicketsHandler).Assembly,
     typeof(ReassignTicketHandler).Assembly
 ));

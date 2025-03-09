@@ -174,4 +174,36 @@ public class TicketRepository : ITicketRepository
 
         return count == ticketIds.Count;
     }
+    
+    public async Task<List<AssignedTicketDetail>> SearchTickets(int userId, string ticketName)
+    {
+        // Using EF Core's FromSqlRaw to execute raw SQL with LIKE operator
+        var query = from t in _context.Tickets
+            join at in _context.AssignedTickets on t.Id equals at.TicketId into assignedTickets
+            from at in assignedTickets.DefaultIfEmpty() // Left join
+            join u1 in _context.Users on t.CreatorId equals u1.Id
+            join u2 in _context.Users on at.AssigneeId equals u2.Id into assignees
+            from u2 in assignees.DefaultIfEmpty() // Left join
+            join u3 in _context.Users on at.AssignerId equals u3.Id into assigners
+            from u3 in assigners.DefaultIfEmpty() // Left join
+            where (t.CreatorId == userId || at.AssigneeId == userId || at.AssignerId == userId)
+                  && EF.Functions.Like(t.Name, $"%{ticketName}%")
+            select new AssignedTicketDetail
+            {
+                Id = t.Id,
+                Name = t.Name,
+                Description = t.Description,
+                FileDescription = t.FileDescription,
+                CreatorId = t.CreatorId,
+                AssigneeId = at.AssigneeId,
+                AssigneeName = u2.Name ?? "N/A", // If no assignee, return "N/A"
+                AssignerId = at.AssignerId,
+                AssignerName = u3.Name ?? "N/A", // If no assigner, return "N/A"
+                Status = at.Status,
+                AssignedAt = at.UpdatedAt // Or another field if needed
+            };
+
+        return await query.ToListAsync();
+    }
+
 }

@@ -5,11 +5,11 @@ using WebApplicationCQRS.Domain.Interfaces;
 
 namespace WebApplicationCQRS.Application.Features.Tickets.Queries;
 
-public class GetReceivedAssignedTicketsQueryHandler : IRequestHandler<GetReceivedAssignedTicketsQuery, Result<List<ReceivedAssignedTicketDTO>>>
+public class GetReceivedAssignedTicketsHandler : IRequestHandler<GetReceivedAssignedTicketsQuery, Result<List<ReceivedAssignedTicketDTO>>>
 {
     private readonly ITicketRepository _ticketRepository;
 
-    public GetReceivedAssignedTicketsQueryHandler(ITicketRepository ticketRepository)
+    public GetReceivedAssignedTicketsHandler(ITicketRepository ticketRepository)
     {
         _ticketRepository = ticketRepository;
     }

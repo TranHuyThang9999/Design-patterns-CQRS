@@ -21,4 +21,6 @@ public interface ITicketRepository
     Task<List<AssignedTickets>> GetTicketsAssignedByMe(int userId);
 
     Task<bool> CheckIfUserIsCreatorOfTickets(int creatorId, List<int> ticketIds);
+
+    Task<List<AssignedTicketDetail>> SearchTickets(int userId, string ticketName);
 }
