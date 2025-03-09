@@ -65,18 +65,28 @@ public class TicketRepository : ITicketRepository
                 _context.Tickets,
                 at => at.TicketId,
                 t => t.Id,
-                (at, t) => new ReceivedAssignedTicketDTO
+                (at, t) => new { at, t }
+            )
+            .Join(
+                _context.Users, 
+                at_t => at_t.at.AssignerId, 
+                u => u.Id, 
+                (at_t, u) => new ReceivedAssignedTicketDTO
                 {
-                    AssignedTicketId =  at.Id,
-                    TicketId = t.Id,
-                    Name = t.Name,
-                    Description = t.Description,
-                    FileDescription = t.FileDescription,
-                    AssignerId = at.AssignerId
+                    Id =  at_t.at.Id,
+                    AssignedTicketId = at_t.at.Id,
+                    TicketId = at_t.t.Id,
+                    Name = at_t.t.Name,
+                    Description = at_t.t.Description,
+                    FileDescription = at_t.t.FileDescription,
+                    AssignerId = at_t.at.AssignerId,
+                    NameUserAssignerIdTicket = u.Name,
+                    TimeAssign = at_t.at.UpdatedAt ??  DateTime.UtcNow,
                 }
             )
             .ToListAsync();
     }
+
 
 
     /// Lấy danh sách ticket mà đã assign cho người khác.

@@ -38,10 +38,14 @@ public class AssignedTickets
 
 public class ReceivedAssignedTicketDTO
 {
+    public int Id { get; set; }
+    public string NameUserAssignerIdTicket { get; set; }
     public int AssignedTicketId { get; set; }
     public int TicketId { get; set; } 
     public string Name { get; set; }
     public string Description { get; set; }
     public string FileDescription { get; set; }
     public int AssignerId { get; set; }
+    
+    public DateTime TimeAssign { get; set; }
 }
