@@ -73,4 +73,7 @@ public class AssignedTicketDetail
     public AssignedTicketStatus? Status { get; set; }
 
     public DateTime? AssignedAt { get; set; }
+    
+    public int? FirstAssginId { get; set; }
+    public string? FirstAssginName { get; set; }
 }

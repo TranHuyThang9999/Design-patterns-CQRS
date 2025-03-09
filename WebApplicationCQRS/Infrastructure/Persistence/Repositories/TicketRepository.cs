@@ -33,34 +33,55 @@ public class TicketRepository : ITicketRepository
                 at => at.TicketId,
                 (t, atGroup) => new { Ticket = t, Assignments = atGroup }
             )
-            .SelectMany(
-                x => x.Assignments
-                    .OrderByDescending(at => at.UpdatedAt)
-                    .Take(1)
-                    .DefaultIfEmpty(),
-                (x, at) => new AssignedTicketDetail
-                {
-                    Id = x.Ticket.Id,
-                    Name = x.Ticket.Name,
-                    CreatorId = x.Ticket.CreatorId,
+            .Select(x => new AssignedTicketDetail
+            {
+                Id = x.Ticket.Id,
+                Name = x.Ticket.Name,
+                CreatorId = x.Ticket.CreatorId,
+                Description = x.Ticket.Description,
+                FileDescription = x.Ticket.FileDescription,
 
-                    AssigneeId = at != null ? at.AssigneeId : (int?)null,
-                    AssigneeName = at != null ? _context.Users.FirstOrDefault(u => u.Id == at.AssigneeId).Name : null,
+                // Người được assign cuối cùng
+                AssigneeId = x.Assignments.OrderByDescending(at => at.UpdatedAt)
+                    .Select(at => at.AssigneeId)
+                    .FirstOrDefault(),
+                AssigneeName = x.Assignments.OrderByDescending(at => at.UpdatedAt)
+                    .Select(at => _context.Users.FirstOrDefault(u => u.Id == at.AssigneeId).Name)
+                    .FirstOrDefault(),
 
-                    AssignerId = at != null ? at.AssignerId : (int?)null,
-                    AssignerName = at != null ? _context.Users.FirstOrDefault(u => u.Id == at.AssignerId).Name : null,
+                // Người assign cuối cùng
+                AssignerId = x.Assignments.OrderByDescending(at => at.UpdatedAt)
+                    .Select(at => at.AssignerId)
+                    .FirstOrDefault(),
+                AssignerName = x.Assignments.OrderByDescending(at => at.UpdatedAt)
+                    .Select(at => _context.Users.FirstOrDefault(u => u.Id == at.AssignerId).Name)
+                    .FirstOrDefault(),
 
-                    Status = at != null ? at.Status : (AssignedTicketStatus?)null,
-                    AssignedAt = at != null ? at.UpdatedAt : (DateTime?)null,
-                    
-                    Description = x.Ticket.Description,
-                    FileDescription =  x.Ticket.FileDescription,
-                    
-                    
-                }
-            ).ToListAsync();
+                // Lấy người được assign đầu tiên
+                FirstAssginId = x.Assignments.OrderBy(at => at.UpdatedAt)
+                    .Select(at => at.AssigneeId)
+                    .FirstOrDefault(),
+                FirstAssginName = x.Assignments.OrderBy(at => at.UpdatedAt)
+                    .Select(at => _context.Users
+                        .Where(u => u.Id == at.AssigneeId)
+                        .Select(u => u.Name)
+                        .FirstOrDefault())
+                    .FirstOrDefault(),
+
+                // Lấy thời gian assign gần nhất
+                AssignedAt = x.Assignments.OrderByDescending(at => at.UpdatedAt)
+                    .Select(at => at.UpdatedAt)
+                    .FirstOrDefault(),
+
+                Status = x.Assignments.OrderByDescending(at => at.UpdatedAt)
+                    .Select(at => at.Status)
+                    .FirstOrDefault(),
+            })
+            .ToListAsync();
+
         return assignedTickets;
     }
+
 
     public async Task UpdateTicket(Ticket ticket)
     {
