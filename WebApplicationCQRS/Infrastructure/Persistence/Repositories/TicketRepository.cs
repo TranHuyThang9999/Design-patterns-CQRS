@@ -26,7 +26,7 @@ public class TicketRepository : ITicketRepository
     public async Task<List<AssignedTicketDetail>> GetTicketsByCreatorId(int creatorId)
     {
         var assignedTickets = await _context.Tickets
-            .Where(t => t.CreatorId == 3170)
+            .Where(t => t.CreatorId == creatorId)
             .GroupJoin(
                 _context.AssignedTickets,
                 t => t.Id,
@@ -40,8 +40,8 @@ public class TicketRepository : ITicketRepository
                     .DefaultIfEmpty(),
                 (x, at) => new AssignedTicketDetail
                 {
-                    TicketId = x.Ticket.Id,
-                    TicketName = x.Ticket.Name,
+                    Id = x.Ticket.Id,
+                    Name = x.Ticket.Name,
                     CreatorId = x.Ticket.CreatorId,
 
                     AssigneeId = at != null ? at.AssigneeId : (int?)null,
@@ -51,7 +51,12 @@ public class TicketRepository : ITicketRepository
                     AssignerName = at != null ? _context.Users.FirstOrDefault(u => u.Id == at.AssignerId).Name : null,
 
                     Status = at != null ? at.Status : (AssignedTicketStatus?)null,
-                    AssignedAt = at != null ? at.UpdatedAt : (DateTime?)null
+                    AssignedAt = at != null ? at.UpdatedAt : (DateTime?)null,
+                    
+                    Description = x.Ticket.Description,
+                    FileDescription =  x.Ticket.FileDescription,
+                    
+                    
                 }
             ).ToListAsync();
         return assignedTickets;
