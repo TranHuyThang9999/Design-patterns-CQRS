@@ -10,22 +10,21 @@ namespace WebApplicationCQRS.Application.Features.Users.Queries;
 
 public class LoginHandler : IRequestHandler<LoginQuery, Result<string>>
 {
-    private readonly IUserRepository _userRepository;
-    private readonly ILogger<LoginHandler> _logger;
+    
     private readonly IJwtService _jwtService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public LoginHandler(IUserRepository userRepository, ILogger<LoginHandler> logger, IJwtService jwtService)
+    public LoginHandler(IJwtService jwtService, IUnitOfWork unitOfWork)
     {
-        _userRepository = userRepository;
-        _logger = logger;
         _jwtService = jwtService;
+        _unitOfWork = unitOfWork;
     }
-
+    
     public async Task<Result<string>> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var user = await _userRepository.GetUserByUsername(request.UserName);
+            var user = await _unitOfWork.UserRepository.GetUserByUsername(request.UserName);
             if (user is null)
             {
                 return Result<string>.Failure(ResponseCode.Conflict, "User not found", HttpStatusCode.NotFound);
@@ -47,7 +46,6 @@ public class LoginHandler : IRequestHandler<LoginQuery, Result<string>>
         }
         catch (Exception e)
         {
-            _logger.LogError(e, e.Message);
             return Result<string>.Failure(ResponseCode.InternalError, "Internal Server Error",
                 HttpStatusCode.InternalServerError);
         }

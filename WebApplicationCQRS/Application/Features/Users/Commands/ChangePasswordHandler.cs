@@ -8,23 +8,20 @@ namespace WebApplicationCQRS.Application.Features.Users.Commands;
 
 public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, Result<DateTime>>
 {
-    private readonly IUserRepository _userRepository;
-    private readonly ILogger<ChangePasswordHandler> _logger;
-
-    public ChangePasswordHandler(IUserRepository userRepository, ILogger<ChangePasswordHandler> logger)
+    private readonly IUnitOfWork _unitOfWork;
+    
+    public ChangePasswordHandler(IUnitOfWork unitOfWork)
     {
-        _userRepository = userRepository;
-        _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<DateTime>> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var user = await _userRepository.GetUserById(request.UserId);
+            var user = await _unitOfWork.UserRepository.GetUserById(request.UserId);
             if (user == null)
             {
-                _logger.LogError($"User with id {request.UserId} was not found");
                 return Result<DateTime>.Failure(ResponseCode.InternalError,
                     $"User with id {request.UserId} was not found");
             }
@@ -38,13 +35,12 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, Resu
             model.Id = request.UserId;
             model.Password = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
 
-            var status = await _userRepository.UpdateUserById(model);
+            var status = await _unitOfWork.UserRepository.UpdateUserById(model);
             return Result<DateTime>.Success(DateTime.Now);
         }
 
         catch (Exception e)
         {
-            _logger.LogError(e.Message);
             return Result<DateTime>.Failure(ResponseCode.InternalError, "Internal Server Error",
                 HttpStatusCode.InternalServerError);
         }

@@ -6,16 +6,16 @@ namespace WebApplicationCQRS.Application.Features.Users.Queries;
 
 public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<UserDto>>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetUserQueryHandler(IUserRepository userRepository)
+    public GetUserQueryHandler(IUnitOfWork unitOfWork)
     {
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<UserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserById(request.Id);
+        var user = await _unitOfWork.UserRepository.GetUserById(request.Id);
         if (user is null)
         {
             return null;

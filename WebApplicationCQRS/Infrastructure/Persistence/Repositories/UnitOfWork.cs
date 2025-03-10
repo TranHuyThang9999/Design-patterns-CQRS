@@ -5,12 +5,26 @@ namespace WebApplicationCQRS.Infrastructure.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
+    private readonly AppDbContext _context;
+    public IAssignedTicket AssignedTicket { get; }
+    public IUserRepository UserRepository { get; }
+    public ITicketRepository TicketRepository { get; }
+    public IHistoryAssignTicketRepository HistoryAssignTicketRepository { get; }
+
+    public UnitOfWork(AppDbContext context, IAssignedTicket assignedTicket, IUserRepository userRepository,
+        ITicketRepository ticketRepository, IHistoryAssignTicketRepository historyAssignTicketRepository)
+    {
+        _context = context;
+        AssignedTicket = assignedTicket;
+        UserRepository = userRepository;
+        TicketRepository = ticketRepository;
+        HistoryAssignTicketRepository = historyAssignTicketRepository;
+    }
+    
     public UnitOfWork(AppDbContext context)
     {
         _context = context;
     }
-
-    private readonly AppDbContext _context;
 
     public async Task<T> ExecuteTransactionAsync<T>(Func<Task<T>> operation,
         CancellationToken cancellationToken = default)
@@ -28,5 +42,31 @@ public class UnitOfWork : IUnitOfWork
             await transaction.RollbackAsync(cancellationToken);
             return default!;
         }
+    }
+
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
+
+    public async Task ExecuteTransactionAsync(Func<Task> operation)
+    {
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            await operation();
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
     }
 }

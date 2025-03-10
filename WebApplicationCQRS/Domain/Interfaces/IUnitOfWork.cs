@@ -1,7 +1,14 @@
-namespace WebApplicationCQRS.Domain.Interfaces;
+using WebApplicationCQRS.Domain.Interfaces;
 
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
-    Task<T> ExecuteTransactionAsync<T>(Func<Task<T>> operation, CancellationToken cancellationToken = default);
+    IAssignedTicket AssignedTicket { get; }
+    IUserRepository UserRepository { get; }
+    ITicketRepository TicketRepository { get; }
+    IHistoryAssignTicketRepository HistoryAssignTicketRepository { get; }
+    Task<int> SaveChangesAsync();
+    Task ExecuteTransactionAsync(Func<Task> operation);
 
+    public Task<T> ExecuteTransactionAsync<T>(Func<Task<T>> operation,
+        CancellationToken cancellationToken = default);
 }

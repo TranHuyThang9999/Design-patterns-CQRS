@@ -8,11 +8,11 @@ namespace WebApplicationCQRS.Application.Features.Tickets.Queries;
 
 public class GetTicketsByUserIDHandler : IRequestHandler<GetTicketsByUserIdQuery, Result<List<AssignedTicketDetail>>>
 {
-    private readonly ITicketRepository _ticketRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetTicketsByUserIDHandler(ITicketRepository ticketRepository)
+    public GetTicketsByUserIDHandler(IUnitOfWork unitOfWork)
     {
-        _ticketRepository = ticketRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<List<AssignedTicketDetail>>> Handle(GetTicketsByUserIdQuery request,
@@ -20,10 +20,8 @@ public class GetTicketsByUserIDHandler : IRequestHandler<GetTicketsByUserIdQuery
     {
         try
         {
-         //   List<TicketDtoResponse> ticketMapper = new List<TicketDtoResponse>();
+            var tickets = await _unitOfWork.TicketRepository.GetTicketsByCreatorId(request.UserId);
 
-            var tickets = await _ticketRepository.GetTicketsByCreatorId(request.UserId);
-          
 
             return Result<List<AssignedTicketDetail>>.Success(tickets);
         }

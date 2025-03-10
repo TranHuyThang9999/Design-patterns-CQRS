@@ -3,20 +3,14 @@ using WebApplicationCQRS.Domain.Entities;
 
 namespace WebApplicationCQRS.Infrastructure.Persistence.Context;
 
-public class AppDbContext : DbContext
+public class AppDbContext : DbContext,IApplicationContext,IDisposable
 {
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
     }
     public AppDbContext() { }
-
-
-    public DbSet<User> Users { get; set; }
-    public DbSet<Ticket> Tickets { get; set; }
-    public DbSet<AssignedTicket> AssignedTickets { get; set; }
     
-    public DbSet<HistoryAssignTicket> HistoryAssignTickets { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().HasIndex(u => u.Name).IsUnique();
@@ -56,7 +50,29 @@ public class AppDbContext : DbContext
             .HasForeignKey(h => h.NewAssigneeId)
             .OnDelete(DeleteBehavior.NoAction);
     }
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        SetSoftDelete();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
 
+    private void SetSoftDelete()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            if (entry.State == EntityState.Deleted)
+            {
+                var entity = entry.Entity;
+                var deletedAtProperty = entity.GetType().GetProperty("DeletedAt");
+
+                if (deletedAtProperty != null && deletedAtProperty.PropertyType == typeof(DateTime?))
+                {
+                    deletedAtProperty.SetValue(entity, DateTime.UtcNow);
+                    entry.State = EntityState.Modified;
+                }
+            }
+        }
+    }
     public override int SaveChanges()
     {
         foreach (var entry in ChangeTracker.Entries())
@@ -76,4 +92,9 @@ public class AppDbContext : DbContext
 
         return base.SaveChanges();
     }
+
+    public DbSet<User> Users { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<AssignedTicket> AssignedTickets { get; set; }
+    public DbSet<HistoryAssignTicket> HistoryAssignTickets { get; set; }
 }

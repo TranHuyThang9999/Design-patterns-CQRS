@@ -11,7 +11,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="" />
+    <list default="true" id="24799bc7-e1fa-4fa2-bc82-8da87a5fec37" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Context/IApplicationContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WebApplicationCQRS.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/AssignedTicketsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Commands/CreateTicketHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Commands/CreateTicketHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetAssignedTicketsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetAssignedTicketsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetReceivedAssignedTicketsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetReceivedAssignedTicketsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/GetTicketsByUserIDHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Tickets/Queries/SearchTicketsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Tickets/Queries/SearchTicketsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Commands/ChangePasswordHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Commands/ChangePasswordHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Commands/CreateUserHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Commands/CreateUserHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Commands/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Commands/UpdateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUserQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUserQueryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUsersQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Queries/GetUsersQueryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Features/Users/Queries/LoginHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Features/Users/Queries/LoginHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IUnitOfWork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IUnitOfWork.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Folder.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Folder.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Context/AppDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Context/AppDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/UnitOfWork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/Persistence/Repositories/UnitOfWork.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,7 +48,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/031a4bb8bd1549cbb5cf427a886cf3e71dc400/f2/d933b264/ControllerBase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/24dfed82e76f4ff38a0735bfd901ef52b2e000/7c/89db35e8/List`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/24dfed82e76f4ff38a0735bfd901ef52b2e000/92/9351f325/Task.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/24dfed82e76f4ff38a0735bfd901ef52b2e000/cd/533c4302/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/24dfed82e76f4ff38a0735bfd901ef52b2e000/cd/533c4302/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/487c75b751d24cb28476ad047630ef048848/17/7d13765e/DeleteBehavior.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5b8d0bce2fc640f989628bc48728e48a20ac20/45/2a200293/IHistoryRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6753b151eaf047d495c4b9d5fde32208291020/82/8e104056/DbContext.cs" root0="FORCE_HIGHLIGHTING" />
@@ -37,10 +58,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7b710f6a0201548f1aee385dbfe20b7cdd629fb378894c7978f7ca5936a28/ConfigurationExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e0a1b44db18ac79690f2cc6980f338f54171bdd565f0db3efde3485febdf4e0/PresignedPutObjectArgs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ed2e2f6b6c4dfa81f4d445e4bb22b3b191b43fc073753331ffbb2b17f0e5d3a0/IObjectOperations.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/DTOs/TicketDto.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/Tickets/Queries/GetTicketsByUserIDQuery.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Domain/Interfaces/ITicketRepository.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Infrastructure/Persistence/Repositories/TicketRepository.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Application/Features/AssignedTickets/Commands/ReassignTicketHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Infrastructure/Persistence/Repositories/UnitOfWork.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/huythang/RiderProjects/WebApplicationCQRS/WebApplicationCQRS/Infrastructure/Persistence/Repositories/UnitOfWork.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -55,22 +76,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.WebApplicationCQRS: http.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/huythang/RiderProjects/ConsoleApp2&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.WebApplicationCQRS: http.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/huythang/RiderProjects/ConsoleApp2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.WebApplicationCQRS: http">
     <configuration name="WebApplicationCQRS: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/WebApplicationCQRS.csproj" />
@@ -168,6 +189,11 @@
       <workItem from="1741503880235" duration="11272000" />
       <workItem from="1741535171915" duration="1474000" />
       <workItem from="1741537793679" duration="4870000" />
+      <workItem from="1741572009589" duration="9815000" />
+      <workItem from="1741588972500" duration="1717000" />
+      <workItem from="1741590789359" duration="614000" />
+      <workItem from="1741591430708" duration="1803000" />
+      <workItem from="1741595248898" duration="2469000" />
     </task>
     <task id="LOCAL-00001" summary="add comment code middleware">
       <option name="closed" value="true" />
@@ -199,5 +225,22 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="add comment code middleware" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints-dialog>
+        <breakpoints-dialog>
+          <selected-grouping-rules>
+            <grouping-rule id="RiderExceptionGroupByNamespaceRule" />
+            <grouping-rule id="RiderExceptionGroupBySourceRule" />
+            <grouping-rule id="by-file" />
+          </selected-grouping-rules>
+        </breakpoints-dialog>
+      </breakpoints-dialog>
+      <default-breakpoints>
+        <breakpoint enabled="true" log-message="true" log-stack="true" type="DotNet Exception Breakpoints" />
+        <breakpoint log-message="true" type="CidrExceptionBreakpoint" />
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

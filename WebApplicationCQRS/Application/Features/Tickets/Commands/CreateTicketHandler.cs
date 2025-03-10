@@ -6,13 +6,11 @@ namespace WebApplicationCQRS.Application.Features.Tickets.Commands;
 
 public class CreateTicketHandler : IRequestHandler<CreateTicketCommand, Result<int>>
 {
-    private readonly ILogger<CreateTicketCommand> _logger;
-    private readonly ITicketRepository _ticketRepository;
-    
-    public CreateTicketHandler(ILogger<CreateTicketCommand> logger, ITicketRepository ticketRepository)
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CreateTicketHandler(IUnitOfWork unitOfWork)
     {
-        _logger = logger;
-        _ticketRepository = ticketRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<int>> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
@@ -20,12 +18,11 @@ public class CreateTicketHandler : IRequestHandler<CreateTicketCommand, Result<i
         try
         {
             var ticketID = await 
-                _ticketRepository.AddTicket(new Ticket(request.CreatorId, request.Name, request.FileDescription,request.Description));
+                _unitOfWork.TicketRepository.AddTicket(new Ticket(request.CreatorId, request.Name, request.FileDescription,request.Description));
             return Result<int>.Success(ticketID, "Ticket Created Successfully");
         }
         catch (Exception e)
         {
-            _logger.LogError(e.Message);
             throw;
         }
     }

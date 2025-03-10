@@ -7,18 +7,18 @@ namespace WebApplicationCQRS.Application.Features.Tickets.Queries;
 
 public class GetReceivedAssignedTicketsHandler : IRequestHandler<GetReceivedAssignedTicketsQuery, Result<List<ReceivedAssignedTicketDTO>>>
 {
-    private readonly ITicketRepository _ticketRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetReceivedAssignedTicketsHandler(ITicketRepository ticketRepository)
+    public GetReceivedAssignedTicketsHandler(IUnitOfWork unitOfWork)
     {
-        _ticketRepository = ticketRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<List<ReceivedAssignedTicketDTO>>> Handle(GetReceivedAssignedTicketsQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var tickets = await _ticketRepository.GetTicketsAssignedToMe(request.AssigneeId);
+            var tickets = await _unitOfWork.TicketRepository.GetTicketsAssignedToMe(request.AssigneeId);
             return Result<List<ReceivedAssignedTicketDTO>>.Success(tickets);
         }
         catch (Exception e)

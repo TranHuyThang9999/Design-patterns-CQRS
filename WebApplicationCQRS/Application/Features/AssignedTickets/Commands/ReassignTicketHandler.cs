@@ -1,27 +1,16 @@
 using MediatR;
 using WebApplicationCQRS.Common.Enums;
 using WebApplicationCQRS.Domain.Entities;
-using WebApplicationCQRS.Domain.Interfaces;
 
 namespace WebApplicationCQRS.Application.Features.AssignedTickets.Commands;
 
 public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Result<int>>
 {
-    private readonly IHistoryAssignTicketRepository _historyAssignTicketRepository;
-    private readonly ITicketRepository _ticketRepository;
-    private readonly IAssignedTicket _assignedTicket;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<ReassignTicketHandler> _logger;
 
-    public ReassignTicketHandler(IHistoryAssignTicketRepository historyAssignTicketRepository,
-        ITicketRepository ticketRepository, IAssignedTicket assignedTicket, IUnitOfWork unitOfWork,
-        ILogger<ReassignTicketHandler> logger)
+    public ReassignTicketHandler(IUnitOfWork unitOfWork)
     {
-        _historyAssignTicketRepository = historyAssignTicketRepository;
-        _ticketRepository = ticketRepository;
-        _assignedTicket = assignedTicket;
         _unitOfWork = unitOfWork;
-        _logger = logger;
     }
 
     public async Task<Result<int>> Handle(ReassignTicketCommand request, CancellationToken cancellationToken)
@@ -51,13 +40,14 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
                 }
 
                 //
-                var assignedTicketsExist = await _assignedTicket.AreAllAssignedTicketsExist(request.AssignedTicketIds);
+                var assignedTicketsExist =
+                    await _unitOfWork.AssignedTicket.AreAllAssignedTicketsExist(request.AssignedTicketIds);
                 if (!assignedTicketsExist)
                 {
                     return Result<int>.Failure(ResponseCode.NotFound, "No assigned tickets exist.");
                 }
 
-                var pendingAssignedTicketsUpdates = await _assignedTicket.GetAssignedTicketsByIds(ticketIDs);
+                var pendingAssignedTicketsUpdates = await _unitOfWork.AssignedTicket.GetAssignedTicketsByIds(ticketIDs);
                 if (pendingAssignedTicketsUpdates is null)
                 {
                     return Result<int>.Failure(ResponseCode.NotFound, "Ticket not found");
@@ -83,9 +73,9 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
                     }
                 }
 
-                await _assignedTicket.CreateAssignTicketF(assignedTickets);
+                await _unitOfWork.AssignedTicket.CreateAssignTicketF(assignedTickets);
 
-                await _historyAssignTicketRepository.AssignTicketToAnotherUser(historyAssignTickets);
+                await _unitOfWork.HistoryAssignTicketRepository.AssignTicketToAnotherUser(historyAssignTickets);
 
                 if (pendingAssignedTicketsUpdates?.Any() ?? false)
                 {
@@ -94,7 +84,7 @@ public class ReassignTicketHandler : IRequestHandler<ReassignTicketCommand, Resu
                         ticket.Status = AssignedTicketStatus.Reassigned;
                     }
 
-                    await _assignedTicket.UpdateAssignedTickets(pendingAssignedTicketsUpdates);
+                    await _unitOfWork.AssignedTicket.UpdateAssignedTickets(pendingAssignedTicketsUpdates);
                 }
 
                 return Result<int>.Success(0);

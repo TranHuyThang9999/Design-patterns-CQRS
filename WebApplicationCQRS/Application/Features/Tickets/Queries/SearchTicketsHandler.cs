@@ -7,13 +7,11 @@ namespace WebApplicationCQRS.Application.Features.Tickets.Queries;
 
 public class SearchTicketsHandler : IRequestHandler<SearchTicketsQuery, Result<List<AssignedTicketDetail>>>
 {
-    private readonly ITicketRepository _ticketRepository;
-    private readonly ILogger<SearchTicketsHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public SearchTicketsHandler(ITicketRepository ticketRepository, ILogger<SearchTicketsHandler> logger)
+    public SearchTicketsHandler(IUnitOfWork unitOfWork)
     {
-        _ticketRepository = ticketRepository;
-        _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<List<AssignedTicketDetail>>> Handle(SearchTicketsQuery request,
@@ -21,8 +19,7 @@ public class SearchTicketsHandler : IRequestHandler<SearchTicketsQuery, Result<L
     {
         try
         {
-            _logger.LogInformation("Searching tickets for 2 {query}", request.TicketName);
-            var tickets = await _ticketRepository.SearchTickets(request.UserId, request.TicketName);
+            var tickets = await _unitOfWork.TicketRepository.SearchTickets(request.UserId, request.TicketName);
             return Result<List<AssignedTicketDetail>>.Success(tickets);
         }
         catch (Exception e)

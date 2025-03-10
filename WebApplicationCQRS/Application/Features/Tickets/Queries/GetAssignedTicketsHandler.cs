@@ -6,18 +6,18 @@ namespace WebApplicationCQRS.Application.Features.Tickets.Queries;
 
 public class GetAssignedTicketsHandler : IRequestHandler<GetAssignedTicketsQuery, Result<List<DTOs.AssignedTickets>>>
 {
-    private readonly ITicketRepository _ticketRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetAssignedTicketsHandler(ITicketRepository ticketRepository)
+    public GetAssignedTicketsHandler(IUnitOfWork unitOfWork)
     {
-        _ticketRepository = ticketRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<List<DTOs.AssignedTickets>>> Handle(GetAssignedTicketsQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var tickets = await _ticketRepository.GetTicketsAssignedByMe(request.AssignerId);
+            var tickets = await _unitOfWork.TicketRepository.GetTicketsAssignedByMe(request.AssignerId);
             return Result<List<DTOs.AssignedTickets>>.Success(tickets);
         }
         catch (Exception ex)

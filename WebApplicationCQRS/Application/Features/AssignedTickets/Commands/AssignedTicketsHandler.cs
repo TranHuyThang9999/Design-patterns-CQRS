@@ -1,31 +1,17 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore.Migrations;
-using NUnit.Framework;
 using WebApplicationCQRS.Common.Enums;
 using WebApplicationCQRS.Domain.Entities;
-using WebApplicationCQRS.Domain.Interfaces;
 
 namespace WebApplicationCQRS.Application.Features.AssignedTickets.Commands;
 
 public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Result<int>>
 {
-    public AssignedTicketsHandler(IAssignedTicket assignedTicket, IUserRepository userRepository,
-        ITicketRepository ticketRepository, IHistoryAssignTicketRepository historyAssignTicketRepository,
-        IUnitOfWork unitOfWork)
+    private readonly IUnitOfWork _unitOfWork;
+    public AssignedTicketsHandler(IUnitOfWork unitOfWork)
     {
-        _assignedTicket = assignedTicket;
-        _userRepository = userRepository;
-        _ticketRepository = ticketRepository;
-        _historyAssignTicketRepository = historyAssignTicketRepository;
         _unitOfWork = unitOfWork;
     }
-
-    private readonly IAssignedTicket _assignedTicket;
-    private readonly IUserRepository _userRepository;
-    private readonly ITicketRepository _ticketRepository;
-    private readonly IHistoryAssignTicketRepository _historyAssignTicketRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
+    
     public AssignedTicketsHandler()
     {
     }
@@ -53,13 +39,13 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
                     return Result<int>.Failure(ResponseCode.Conflict, "Duplicate users are not allowed.");
                 }
 
-                var existsUserIds = await _userRepository.CheckListUserExistsByUserIDs(userIDs);
+                var existsUserIds = await _unitOfWork.UserRepository.CheckListUserExistsByUserIDs(userIDs);
                 if (!existsUserIds)
                 {
                     return Result<int>.Failure(ResponseCode.NotFound, "One or more users do not exist.");
                 }
 
-                var existsTicketIds = await _ticketRepository.CheckListTicketExists(ticketIDs);
+                var existsTicketIds = await _unitOfWork.UserRepository.CheckListUserExistsByUserIDs(ticketIDs);
                 if (!existsTicketIds)
                 {
                     return Result<int>.Failure(ResponseCode.NotFound, "One or more tickets do not exist.");
@@ -83,7 +69,7 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
                 }
 
 
-                var assignedTicketIds = await _assignedTicket.CreateAssignTicketF(assignedTickets, true);
+                var assignedTicketIds = await _unitOfWork.AssignedTicket.CreateAssignTicketF(assignedTickets, true);
 
                 for (int i = 0; i < assignedTickets.Count; i++)
                 {
@@ -95,7 +81,7 @@ public class AssignedTicketsHandler : IRequestHandler<AssignTicketsCommand, Resu
                     });
                 }
 
-                await _historyAssignTicketRepository.AssignTicketToAnotherUser(historyAssignTickets);
+                await _unitOfWork.HistoryAssignTicketRepository.AssignTicketToAnotherUser(historyAssignTickets);
 
                 return Result<int>.Success(assignedTickets.Count);
             });

@@ -35,7 +35,7 @@ builder.Services.Configure<MinioClient>(builder.Configuration.GetSection("Minio"
 
 var corsSettings = configuration.GetSection("Cors");
 var allowedOrigins = corsSettings.GetSection("AllowedOrigins").Get<string[]>() ?? new string[0];
-var allowedMethods = corsSettings.GetSection("AllowedMethods").Get<string[]>() ?? new string[] { "GET", "POST" };
+var allowedMethods = corsSettings.GetSection("AllowedMethods").Get<string[]>() ?? new string[] { "GET", "POST" ,"DELETE","PATCH"};
 var allowedHeaders = corsSettings.GetSection("AllowedHeaders").Get<string[]>() ??
                      new string[] { "Content-Type", "Authorization" };
 
@@ -84,7 +84,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+    );
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
