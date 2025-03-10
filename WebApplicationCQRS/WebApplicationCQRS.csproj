@@ -34,4 +34,10 @@
       <Folder Include="Application\Features\HistoryAssignTicket\Queries\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Untitled.png">
+        <DependentUpon>README.md</DependentUpon>
+      </None>
+    </ItemGroup>
+
 </Project>
